@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:local="clr-namespace:TrackSense.Views"
+            x:Class="TrackSense.Views.TabMenuPage">
+    
+    <NavigationPage Title="Trajets effectuee"
+                    IconImageSource="settings_light.svg">
+        <x:Arguments>
+            <local:MainPage />
+        </x:Arguments>
+    </NavigationPage>
+
+    <NavigationPage Title="Trajet sauvegardee"
+                    IconImageSource="settings_light.svg">
+        <x:Arguments>
+            <local:MainPage />
+        </x:Arguments>
+    </NavigationPage>
+
+    <NavigationPage Title="Settings"
+                    IconImageSource="settings_light.svg">
+        <x:Arguments>
+            <local:SettingsPage />
+        </x:Arguments>
+    </NavigationPage>
+    
+</TabbedPage>

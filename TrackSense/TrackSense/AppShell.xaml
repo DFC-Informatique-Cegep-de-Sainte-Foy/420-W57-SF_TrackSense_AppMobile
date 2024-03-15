@@ -1,14 +1,42 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<Shell
-    x:Class="TrackSense.AppShell"
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:views="clr-namespace:TrackSense.Views"
-    Shell.FlyoutBehavior="Disabled">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate views:MainPage}"
-        Route="MainPage" />
+<Shell x:Class="TrackSense.AppShell"
+       xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:views="clr-namespace:TrackSense.Views"
+       Shell.FlyoutBehavior="Disabled"
+       Shell.TabBarBackgroundColor="CornflowerBlue"
+       Shell.TabBarTitleColor="Black"
+       Shell.TabBarUnselectedColor="AntiqueWhite">
+
+    <TabBar>
+        
+        <Tab Title="Home"
+             Icon="settings_light.svg"
+             Route="MainPage">
+            <ShellContent ContentTemplate="{DataTemplate views:MainPage}" />
+        </Tab>
+
+        <Tab Title="Trajets"
+             Icon="settings_light.svg"
+             Route="MainPage">
+            <ShellContent Title="Effectuees" ContentTemplate="{DataTemplate views:MainPage}" />
+            <ShellContent Title="Sauvegardee" ContentTemplate="{DataTemplate views:MainPage}" />
+        </Tab>
+
+        <Tab Title="Position interet"
+             Icon="settings_light.svg"
+             Route="MainPage">
+            <ShellContent Title="Effectuees" ContentTemplate="{DataTemplate views:MainPage}" />
+            <ShellContent Title="Sauvegardee" ContentTemplate="{DataTemplate views:MainPage}" />
+        </Tab>
+
+        <Tab Title="Settings"
+             Icon="settings_light.svg"
+             Route="SettingsPage">
+            <ShellContent ContentTemplate="{DataTemplate views:SettingsPage}" />
+        </Tab>
+        
+    </TabBar>
 
 </Shell>
