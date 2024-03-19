@@ -103,7 +103,19 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Views\CompletedRidePage.xaml">
+	  <Compile Update="Views\CompletedRideStatisticsPage.xaml.cs">
+	    <DependentUpon>CompletedRideStatisticsPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\CompletedRidesPage.xaml.cs">
+	    <DependentUpon>CompletedRidesPage.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Views\CompletedRideStatisticsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\CompletedRidesPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\SettingsPage.xaml">

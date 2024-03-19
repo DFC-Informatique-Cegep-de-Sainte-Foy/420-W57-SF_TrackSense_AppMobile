@@ -9,7 +9,7 @@ using TrackSense.Views;
 
 namespace TrackSense.ViewModels;
 
-public partial class MainPageViewModel : BaseViewModel
+public partial class CompletedRidesViewModel : BaseViewModel
 {
     BluetoothService _bluetoothService;
     RideService _rideService;
@@ -25,7 +25,7 @@ public partial class MainPageViewModel : BaseViewModel
     [ObservableProperty]
     bool isRefreshing;
 
-    public MainPageViewModel(BluetoothService btService, RideService rideService, IConnectivity connectivity)
+    public CompletedRidesViewModel(BluetoothService btService, RideService rideService, IConnectivity connectivity)
     {
         Title = "Accueil";
         _bluetoothService = btService;
