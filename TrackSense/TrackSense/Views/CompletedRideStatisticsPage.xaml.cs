@@ -13,9 +13,9 @@ using Color = Mapsui.Styles.Color;
 
 namespace TrackSense.Views;
 
-public partial class CompletedRidePage : ContentPage
+public partial class CompletedRideStatisticsPage : ContentPage
 {
-	public CompletedRidePage(CompletedRideViewModel viewModel)
+	public CompletedRideStatisticsPage(CompletedRideStatisticsViewModel viewModel)
 	{
 		InitializeComponent();
 		BindingContext = viewModel;
@@ -130,7 +130,7 @@ public partial class CompletedRidePage : ContentPage
     {
         base.OnAppearing();
 
-        if (BindingContext is CompletedRideViewModel viewModel)
+        if (BindingContext is CompletedRideStatisticsViewModel viewModel)
         {
             CompletedRide rideToDisplay = viewModel.CompletedRide;
             if (rideToDisplay.CompletedRidePoints.Count > 0)

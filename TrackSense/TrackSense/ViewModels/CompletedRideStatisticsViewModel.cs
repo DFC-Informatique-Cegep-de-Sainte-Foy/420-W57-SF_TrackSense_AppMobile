@@ -4,12 +4,12 @@ using TrackSense.Models;
 namespace TrackSense.ViewModels
 {
     [QueryProperty("CompletedRide", "CompletedRide")]
-    public partial class CompletedRideViewModel : BaseViewModel
+    public partial class CompletedRideStatisticsViewModel : BaseViewModel
     {
         [ObservableProperty]
         CompletedRide completedRide;
 
-        public CompletedRideViewModel()
+        public CompletedRideStatisticsViewModel()
         {
             Title = "Statistiques";
         }

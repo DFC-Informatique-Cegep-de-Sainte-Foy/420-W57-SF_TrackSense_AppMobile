@@ -9,7 +9,8 @@ namespace TrackSense
             InitializeComponent();
 
             Routing.RegisterRoute(nameof(TrackSenseDevicesPage), typeof(TrackSenseDevicesPage));
-            Routing.RegisterRoute(nameof(CompletedRidePage), typeof(CompletedRidePage));
+            Routing.RegisterRoute(nameof(CompletedRideStatisticsPage), typeof(CompletedRideStatisticsPage));
+            Routing.RegisterRoute(nameof(CompletedRidesPage), typeof(CompletedRidesPage));
             Routing.RegisterRoute(nameof(SettingsPage), typeof(SettingsPage));
         }
     }

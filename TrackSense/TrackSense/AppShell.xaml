@@ -20,7 +20,7 @@
         <Tab Title="Trajets"
              Icon="settings_light.svg"
              Route="MainPage">
-            <ShellContent Title="Effectuees" ContentTemplate="{DataTemplate views:MainPage}" />
+            <ShellContent Title="Effectuees" ContentTemplate="{DataTemplate views:CompletedRides}" />
             <ShellContent Title="Sauvegardee" ContentTemplate="{DataTemplate views:MainPage}" />
         </Tab>
 
