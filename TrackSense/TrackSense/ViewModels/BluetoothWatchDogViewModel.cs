@@ -11,7 +11,7 @@ using TrackSense.Views;
 
 namespace TrackSense.ViewModels
 {
-    public partial class TrackSenseDevicesViewModel : BaseViewModel
+    public partial class BluetoothWatchDogViewModel : BaseViewModel
     {
         BluetoothService _bluetoothService;
 
@@ -27,7 +27,7 @@ namespace TrackSense.ViewModels
 
         public ObservableCollection<TrackSenseDevice> NearbyDevices { get; } = new();
 
-        public TrackSenseDevicesViewModel(BluetoothService p_bluetoothService)
+        public BluetoothWatchDogViewModel(BluetoothService p_bluetoothService)
         {
             this.Title = "Ajout TrackSense";
             this._bluetoothService = p_bluetoothService;

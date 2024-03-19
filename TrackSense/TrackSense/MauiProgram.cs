@@ -41,13 +41,29 @@ namespace TrackSense
             builder.Services.AddSingleton<RideService>();
             builder.Services.AddSingleton<UserService>();
 
+
+/* Unmerged change from project 'TrackSense (net7.0-android)'
+Before:
             builder.Services.AddSingleton<TrackSenseDevicesViewModel>();
-            builder.Services.AddSingleton<MainPageViewModel>();
+After:
+            builder.Services.AddSingleton<ViewModels.BluetoothWatchDog>();
+*/
+
+/* Unmerged change from project 'TrackSense (net7.0-ios)'
+Before:
+            builder.Services.AddSingleton<TrackSenseDevicesViewModel>();
+After:
+            builder.Services.AddSingleton<ViewModels.BluetoothWatchDog>();
+*/
+            builder.Services.AddSingleton<BluetoothWatchDogViewModel>();
+            builder.Services.AddSingleton<MainViewModel>();
+            builder.Services.AddSingleton<CompletedRidesViewModel>();
             builder.Services.AddSingleton<CompletedRideStatisticsViewModel>();
             builder.Services.AddSingleton<SettingsViewModel>();
 
             builder.Services.AddSingleton<MainPage>();
-            builder.Services.AddTransient<TrackSenseDevicesPage>();
+            builder.Services.AddSingleton<CompletedRidesPage>();
+            builder.Services.AddTransient<BluetoothWatchDog>();
             builder.Services.AddTransient<CompletedRideStatisticsPage>();
             builder.Services.AddTransient<SettingsPage>();
             return builder.Build();

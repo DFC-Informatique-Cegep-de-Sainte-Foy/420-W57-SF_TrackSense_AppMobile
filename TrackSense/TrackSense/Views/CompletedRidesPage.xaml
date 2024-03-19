@@ -53,7 +53,7 @@
                             <Frame HeightRequest="100">
                                 <Frame.GestureRecognizers>
                                     <TapGestureRecognizer CommandParameter="{Binding .}"
-                                                          Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainPageViewModel}}, Path=GoToDetailsCommand}"
+                                                          Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:CompletedRidesViewModel}}, Path=GoToDetailsCommand}"
                                     />
                                 </Frame.GestureRecognizers>
 

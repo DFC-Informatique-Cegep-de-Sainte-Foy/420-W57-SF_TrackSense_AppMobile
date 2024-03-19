@@ -19,16 +19,16 @@
 
         <Tab Title="Trajets"
              Icon="settings_light.svg"
-             Route="MainPage">
-            <ShellContent Title="Effectuees" ContentTemplate="{DataTemplate views:CompletedRides}" />
-            <ShellContent Title="Sauvegardee" ContentTemplate="{DataTemplate views:MainPage}" />
+             Route="CompletedRidesPage">
+            <ShellContent Title="Effectuees" ContentTemplate="{DataTemplate views:CompletedRidesPage}" />
+            <ShellContent Title="Sauvegardee" ContentTemplate="{DataTemplate views:CompletedRidesPage}" />
         </Tab>
 
         <Tab Title="Position interet"
              Icon="settings_light.svg"
-             Route="MainPage">
-            <ShellContent Title="Effectuees" ContentTemplate="{DataTemplate views:MainPage}" />
-            <ShellContent Title="Sauvegardee" ContentTemplate="{DataTemplate views:MainPage}" />
+             Route="CompletedRidesPage">
+            <ShellContent Title="Effectuees" ContentTemplate="{DataTemplate views:CompletedRidesPage}" />
+            <ShellContent Title="Sauvegardee" ContentTemplate="{DataTemplate views:CompletedRidesPage}" />
         </Tab>
 
         <Tab Title="Settings"

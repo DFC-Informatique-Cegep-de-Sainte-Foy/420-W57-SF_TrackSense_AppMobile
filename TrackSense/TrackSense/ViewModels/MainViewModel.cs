@@ -9,7 +9,7 @@ using TrackSense.Views;
 
 namespace TrackSense.ViewModels;
 
-public partial class MainPageViewModel : BaseViewModel
+public partial class MainViewModel : BaseViewModel
 {
     BluetoothService _bluetoothService;
     RideService _rideService;
@@ -25,7 +25,7 @@ public partial class MainPageViewModel : BaseViewModel
     [ObservableProperty]
     bool isRefreshing;
 
-    public MainPageViewModel(BluetoothService btService, RideService rideService, IConnectivity connectivity)
+    public MainViewModel(BluetoothService btService, RideService rideService, IConnectivity connectivity)
     {
         Title = "Accueil";
         _bluetoothService = btService;
@@ -116,7 +116,7 @@ public partial class MainPageViewModel : BaseViewModel
 
         if (!this.IsConnected)
         {
-            await Shell.Current.GoToAsync(nameof(TrackSenseDevicesPage));
+            await Shell.Current.GoToAsync(nameof(BluetoothWatchDog));
         }
     }
 

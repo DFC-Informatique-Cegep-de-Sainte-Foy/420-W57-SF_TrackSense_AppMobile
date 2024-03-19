@@ -27,7 +27,7 @@ public partial class CompletedRidesViewModel : BaseViewModel
 
     public CompletedRidesViewModel(BluetoothService btService, RideService rideService, IConnectivity connectivity)
     {
-        Title = "Accueil";
+        Title = "Tracksense";
         _bluetoothService = btService;
         _rideService = rideService;
         _connectivity = connectivity;
@@ -116,7 +116,7 @@ public partial class CompletedRidesViewModel : BaseViewModel
 
         if (!this.IsConnected)
         {
-            await Shell.Current.GoToAsync(nameof(TrackSenseDevicesPage));
+            await Shell.Current.GoToAsync(nameof(BluetoothWatchDog));
         }
     }
 

@@ -5,7 +5,7 @@
              xmlns:model="clr-namespace:TrackSense.Models"
              xmlns:viewmodel="clr-namespace:TrackSense.ViewModels"
              Title="{Binding Title}"
-             x:DataType="viewmodel:MainPageViewModel">
+             x:DataType="viewmodel:MainViewModel">
 
     <Grid RowDefinitions="Auto, *"
           ColumnDefinitions="Auto, *">
@@ -26,6 +26,8 @@
                    Aspect="AspectFit"
                    Margin="0,2,0,0"/>
         </VerticalStackLayout>
+        
+        
 
         
         
