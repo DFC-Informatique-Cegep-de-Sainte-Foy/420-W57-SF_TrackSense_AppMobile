@@ -12,5 +12,15 @@ namespace TrackSense
             Routing.RegisterRoute(nameof(CompletedRideStatisticsPage), typeof(CompletedRideStatisticsPage));
             Routing.RegisterRoute(nameof(SettingsPage), typeof(SettingsPage));
         }
+
+        private void ShellContent_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+
+        }
+
+        private void ShellContent_PropertyChanged_1(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+
+        }
     }
 }

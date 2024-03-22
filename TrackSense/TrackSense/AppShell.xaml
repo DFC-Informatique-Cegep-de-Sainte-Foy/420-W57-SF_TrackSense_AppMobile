@@ -20,15 +20,15 @@
         <Tab Title="Trajets"
              Icon="settings_light.svg"
              Route="CompletedRidesPage">
-            <ShellContent Title="Effectuees" ContentTemplate="{DataTemplate views:CompletedRidesPage}" />
+            <ShellContent Title="Effectuees" ContentTemplate="{DataTemplate views:SettingsPage}" />
             <ShellContent Title="Sauvegardee" ContentTemplate="{DataTemplate views:CompletedRidesPage}" />
         </Tab>
 
         <Tab Title="Position interet"
              Icon="settings_light.svg"
              Route="CompletedRidesPage">
-            <ShellContent Title="Effectuees" ContentTemplate="{DataTemplate views:CompletedRidesPage}" />
-            <ShellContent Title="Sauvegardee" ContentTemplate="{DataTemplate views:CompletedRidesPage}" />
+            <ShellContent Title="QWERTY" ContentTemplate="{DataTemplate views:CompletedRidesPage}" />
+            <ShellContent Title="QQQQ" ContentTemplate="{DataTemplate views:CompletedRidesPage}" />
         </Tab>
 
         <Tab Title="Settings"

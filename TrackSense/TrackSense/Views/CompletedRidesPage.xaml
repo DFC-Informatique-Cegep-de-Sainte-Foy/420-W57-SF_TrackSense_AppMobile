@@ -48,7 +48,7 @@
                 </CollectionView.EmptyView>
 
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="model:CompletedRideSummary">
+                    <DataTemplate x:DataType="model:SavedRideSummary">
                         <VerticalStackLayout Padding="5">
                             <Frame HeightRequest="100">
                                 <Frame.GestureRecognizers>
