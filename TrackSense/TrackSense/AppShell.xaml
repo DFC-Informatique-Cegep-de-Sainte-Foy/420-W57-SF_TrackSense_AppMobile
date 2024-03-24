@@ -20,8 +20,8 @@
         <Tab Title="Trajets"
              Icon="settings_light.svg"
              Route="CompletedRidesPage">
-            <ShellContent Title="Effectuees" ContentTemplate="{DataTemplate views:SettingsPage}" />
-            <ShellContent Title="Sauvegardee" ContentTemplate="{DataTemplate views:CompletedRidesPage}" />
+            <ShellContent Title="Effectuees" ContentTemplate="{DataTemplate views:CompletedRidesPage}" />
+            <ShellContent Title="Sauvegardee" ContentTemplate="{DataTemplate views:SavedRidesPage}" />
         </Tab>
 
         <Tab Title="Position interet"

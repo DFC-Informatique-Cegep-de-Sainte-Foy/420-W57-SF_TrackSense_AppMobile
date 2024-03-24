@@ -112,6 +112,9 @@
 	  <Compile Update="Views\BluetoothWatchDog.xaml.cs">
 	    <DependentUpon>BluetoothWatchDog.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Views\SavedRidesPage.xaml.cs">
+	    <DependentUpon>SavedRidesPage.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -119,6 +122,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\CompletedRidesPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\SavedRidesPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\SettingsPage.xaml">
