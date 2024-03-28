@@ -12,6 +12,7 @@ namespace TrackSense.Models
         public Guid PlannedRideId { get; set; }
         public List<CompletedRidePoint> CompletedRidePoints { get; set; }
         public CompletedRideStatistics Statistics { get; set; }
+
         public CompletedRide(Entities.CompletedRide entite)
         {
             if (entite is null)

@@ -8,7 +8,8 @@
              x:DataType="viewmodel:MainViewModel">
 
     <Grid RowDefinitions="Auto, *"
-          ColumnDefinitions="Auto, *">
+          ColumnDefinitions="Auto, *"
+          Padding="5">
 
 
         <VerticalStackLayout Grid.Row="0"
@@ -26,11 +27,17 @@
                    Aspect="AspectFit"
                    Margin="0,2,0,0"/>
         </VerticalStackLayout>
-        
-        
 
-        
-        
+        <Image Grid.ColumnSpan="2"
+               Source="mtb_logo.png"
+               BackgroundColor="DeepSkyBlue"
+               MaximumHeightRequest="130"
+               Aspect="Fill"/>
+
+
+
+
+
     </Grid>
 
 </ContentPage>

@@ -27,8 +27,7 @@
         <Tab Title="Position interet"
              Icon="settings_light.svg"
              Route="CompletedRidesPage">
-            <ShellContent Title="QWERTY" ContentTemplate="{DataTemplate views:CompletedRidesPage}" />
-            <ShellContent Title="QQQQ" ContentTemplate="{DataTemplate views:CompletedRidesPage}" />
+            <ShellContent Title="Sauvegardee" ContentTemplate="{DataTemplate views:CompletedRidesPage}" />
         </Tab>
 
         <Tab Title="Settings"
