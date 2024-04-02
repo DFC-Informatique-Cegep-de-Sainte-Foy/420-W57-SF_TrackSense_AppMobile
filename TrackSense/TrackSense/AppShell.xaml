@@ -21,7 +21,7 @@
              Icon="settings_light.svg"
              Route="CompletedRidesPage">
             <ShellContent Title="Effectuees" ContentTemplate="{DataTemplate views:CompletedRidesPage}" />
-            <ShellContent Title="Sauvegardee" ContentTemplate="{DataTemplate views:SavedRidesPage}" />
+            <ShellContent Title="Sauvegardee" ContentTemplate="{DataTemplate views:PlannedRidesPage}" />
         </Tab>
 
         <Tab Title="Position interet"
