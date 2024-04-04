@@ -75,7 +75,7 @@ public partial class PlannedRidesViewModel : BaseViewModel
 
         try
         {
-            /*
+            
             IsBusy = true;
 
             var result = await _rideService.PostPlannedRideAsync(p_plannedRide);
@@ -89,7 +89,7 @@ public partial class PlannedRidesViewModel : BaseViewModel
             {
                 // Handle failure, e.g., show an error message to the user
                 await Shell.Current.DisplayAlert("Error", "Échec de la publication du trajet.", "Ok");
-            }*/
+            }
         }
         catch (Exception ex)
         {
@@ -133,7 +133,7 @@ public partial class PlannedRidesViewModel : BaseViewModel
         {
             if (await CheckInternetConnection())
             {
-                /*
+                
                 Entities.PlannedRide plannedRide = await _rideService.GetPlannedRide(rideSummary.PlannedRideId);
                 //Entities.CompletedRide completedRide = GenerateFakeCompletedRide();
                 //Entities.CompletedRide completedRide = _rideService.GetCompletedRideFromLocalStorage(rideSummary.CompletedRideId
@@ -143,7 +143,7 @@ public partial class PlannedRidesViewModel : BaseViewModel
                     new Dictionary<string, object>
                     {
                             {"PlannedRide", new Models.PlannedRide(plannedRide) }
-                    });*/
+                    });
             }
         }
         catch (Exception e)
@@ -170,7 +170,7 @@ public partial class PlannedRidesViewModel : BaseViewModel
                 IsBusy = true;
                 IsRefreshing = true;
 
-                //List<TrackSense.Entities.PlannedRideSummary> plannedRides = await _rideService.GetUserPlannedRides();
+                List<TrackSense.Entities.PlannedRideSummary> plannedRides = await _rideService.GetUserPlannedRides();
                 //List<TrackSense.Entities.CompletedRideSummary> completedRides = _rideService.GetCompletedRideSummariesFromLocalStorage();
 
 
@@ -178,13 +178,13 @@ public partial class PlannedRidesViewModel : BaseViewModel
                 {
                     PlannedRideSummaries.Clear();
                 }
-                /*
+                
                 foreach (TrackSense.Entities.PlannedRideSummary ride in plannedRides)
                 {
                     PlannedRideSummaries.Add(new PlannedRideSummary(ride)); // si on a trop de données, ne pas utiliser cette méthode car lève un évenement pour chaque ajout
                     // si on a trop de données, créer une nouvelle liste ou une nouvelle ObservableCollection et l'assigner à CompletedRides ou trouver des
                     //library helpers qui ont des observableRange collections qui feront de l'ajout de batch
-                }*/
+                }
             }
 
         }

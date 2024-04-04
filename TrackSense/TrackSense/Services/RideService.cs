@@ -191,6 +191,41 @@ public class RideService
         }
     }
 
+    internal async Task<HttpResponseMessage> PostPlannedRideAsync(PlannedRide p_plannedRide)
+    {
+        try
+        {
+            if (p_plannedRide == null)
+            {
+                throw new ArgumentNullException(nameof(p_plannedRide));
+            }
+
+            PlannedRideDTO plannedRideDTO = new PlannedRideDTO(p_plannedRide);
+
+            Settings userSettings = _config.LoadSettings();
+            string url = $"{userSettings.ApiUrl}/PlannedRides";
+
+            var content = new StringContent(JsonConvert.SerializeObject(plannedRideDTO), Encoding.UTF8, "application/json");
+
+            var response = await httpClient.PostAsync(url, content);
+
+            if(response.IsSuccessStatusCode)
+            {
+                return response;
+            }
+            else
+            {
+                Console.WriteLine($"HTTP Error: {response.StatusCode}");
+                throw new HttpRequestException($"HTTP Error: {response.StatusCode}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"An error occured: {ex.Message}");
+            throw;
+        }
+    }
+
 
     internal async Task<Entities.CompletedRide> GetCompletedRide(Guid completedRideId)
     {
