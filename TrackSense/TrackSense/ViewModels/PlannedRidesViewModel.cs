@@ -139,11 +139,11 @@ public partial class PlannedRidesViewModel : BaseViewModel
                 //Entities.CompletedRide completedRide = _rideService.GetCompletedRideFromLocalStorage(rideSummary.CompletedRideId
 
                 //Référence le shell, donc pas bonne pratique, il faudrait une interface.
-                await Shell.Current.GoToAsync($"{nameof(PlannedRideStatisticsPage)}", true,
+                /*await Shell.Current.GoToAsync($"{nameof(PlannedRideStatisticsPage)}", true,
                     new Dictionary<string, object>
                     {
                             {"PlannedRide", new Models.PlannedRide(plannedRide) }
-                    });
+                    });*/
             }
         }
         catch (Exception e)
