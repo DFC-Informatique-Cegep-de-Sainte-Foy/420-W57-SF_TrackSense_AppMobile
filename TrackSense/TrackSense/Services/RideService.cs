@@ -129,8 +129,11 @@ public class RideService
 
         if (response.IsSuccessStatusCode)
         {
-            
+            List<PlannedRideSummaryDTO> plannedRides = await response.Content.ReadFromJsonAsync<List<PlannedRideSummaryDTO>>();
+            _plannedRides.AddRange(plannedRides.Select(ride => ride.ToEntity()));
         }
+
+        return _plannedRides;
     }
 
     public List<CompletedRideSummary> GetCompletedRideSummariesFromLocalStorage()
@@ -209,6 +212,28 @@ public class RideService
         }
 
         return completedRide;
+    }
+
+    internal async Task<PlannedRide> GetPlannedRide(Guid plannedRideId)
+    {
+        if (plannedRideId == Guid.Empty)
+        {
+            throw new ArgumentNullException(nameof(plannedRideId));
+        }
+        Settings userSettings = _config.LoadSettings();
+        string url = $"{userSettings.ApiUrl}/PlannedRides/{plannedRideId}";
+
+        var response = await httpClient.GetAsync(url);
+
+        PlannedRide plannedRide = null;
+
+        if (response.IsSuccessStatusCode)
+        {
+            PlannedRideDTO plannedRideDTO = await response.Content.ReadFromJsonAsync<PlannedRideDTO>();
+            plannedRide = plannedRideDTO.ToEntity();
+        }
+
+        return plannedRide;
     }
 
     internal void DeleteRidesFromLocalStorage()
