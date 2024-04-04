@@ -41,7 +41,7 @@ namespace TrackSense.Services.API.APIDTO
             this.PlannedRidePoints = p_plannedRide.PlannedRidePoints.Select(entite =>
                                                                                     new PlannedRidePointDTO(entite)
                                                                                     {
-                                                                                        CompletedRideId = this.CompletedRideId
+                                                                                        PlannedRideId = this.PlannedRideId
                                                                                     })
                                                                            .ToList();
         }
