@@ -16,14 +16,17 @@ namespace TrackSense.Services;
 public class RideService
 {
     private ICompletedRideLocalData _rideData;
+    private IPlannedRideLocalData _plannedRideData;
     BluetoothService _bluetoothService;
     CompletedRide _currentRide;
     List<CompletedRideSummary> _completedRides = new();
+    List<PlannedRideSummary> _plannedRides = new();
     HttpClient httpClient;
     IConfigurationManager _config;
 
-    public RideService(ICompletedRideLocalData rideData, BluetoothService bluetoothService, IConfigurationManager config)
+    public RideService(ICompletedRideLocalData rideData, IPlannedRideLocalData plannedRideData, BluetoothService bluetoothService, IConfigurationManager config)
     {
+        _plannedRideData = plannedRideData;
         _rideData = rideData;
         _bluetoothService = bluetoothService;
         httpClient = new HttpClient();
@@ -113,6 +116,26 @@ public class RideService
         return _completedRides;
     }
 
+    public async Task<List<PlannedRideSummary>> GetUserPlannedRides()
+    {
+        if (_plannedRides.Count != 0)
+        {
+            _plannedRides.Clear();
+        }
+        Settings userSettings = _config.LoadSettings();
+        string url = $"{userSettings.ApiUrl}/users/{userSettings.Username}/plannedRides";
+
+        var response = await httpClient.GetAsync(url);
+
+        if (response.IsSuccessStatusCode)
+        {
+            List<PlannedRideSummaryDTO> plannedRides = await response.Content.ReadFromJsonAsync<List<PlannedRideSummaryDTO>>();
+            _plannedRides.AddRange(plannedRides.Select(ride => ride.ToEntity()));
+        }
+
+        return _plannedRides;
+    }
+
     public List<CompletedRideSummary> GetCompletedRideSummariesFromLocalStorage()
     {
         List<CompletedRide> rides = this._rideData.ListCompletedRides();
@@ -168,6 +191,41 @@ public class RideService
         }
     }
 
+    internal async Task<HttpResponseMessage> PostPlannedRideAsync(PlannedRide p_plannedRide)
+    {
+        try
+        {
+            if (p_plannedRide == null)
+            {
+                throw new ArgumentNullException(nameof(p_plannedRide));
+            }
+
+            PlannedRideDTO plannedRideDTO = new PlannedRideDTO(p_plannedRide);
+
+            Settings userSettings = _config.LoadSettings();
+            string url = $"{userSettings.ApiUrl}/PlannedRides";
+
+            var content = new StringContent(JsonConvert.SerializeObject(plannedRideDTO), Encoding.UTF8, "application/json");
+
+            var response = await httpClient.PostAsync(url, content);
+
+            if(response.IsSuccessStatusCode)
+            {
+                return response;
+            }
+            else
+            {
+                Console.WriteLine($"HTTP Error: {response.StatusCode}");
+                throw new HttpRequestException($"HTTP Error: {response.StatusCode}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"An error occured: {ex.Message}");
+            throw;
+        }
+    }
+
 
     internal async Task<Entities.CompletedRide> GetCompletedRide(Guid completedRideId)
     {
@@ -189,6 +247,28 @@ public class RideService
         }
 
         return completedRide;
+    }
+
+    internal async Task<PlannedRide> GetPlannedRide(Guid plannedRideId)
+    {
+        if (plannedRideId == Guid.Empty)
+        {
+            throw new ArgumentNullException(nameof(plannedRideId));
+        }
+        Settings userSettings = _config.LoadSettings();
+        string url = $"{userSettings.ApiUrl}/PlannedRides/{plannedRideId}";
+
+        var response = await httpClient.GetAsync(url);
+
+        PlannedRide plannedRide = null;
+
+        if (response.IsSuccessStatusCode)
+        {
+            PlannedRideDTO plannedRideDTO = await response.Content.ReadFromJsonAsync<PlannedRideDTO>();
+            plannedRide = plannedRideDTO.ToEntity();
+        }
+
+        return plannedRide;
     }
 
     internal void DeleteRidesFromLocalStorage()
