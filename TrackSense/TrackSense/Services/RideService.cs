@@ -16,14 +16,17 @@ namespace TrackSense.Services;
 public class RideService
 {
     private ICompletedRideLocalData _rideData;
+    private IPlannedRideLocalData _plannedRideData;
     BluetoothService _bluetoothService;
     CompletedRide _currentRide;
     List<CompletedRideSummary> _completedRides = new();
+    List<PlannedRideSummary> _plannedRides = new();
     HttpClient httpClient;
     IConfigurationManager _config;
 
-    public RideService(ICompletedRideLocalData rideData, BluetoothService bluetoothService, IConfigurationManager config)
+    public RideService(ICompletedRideLocalData rideData, IPlannedRideLocalData plannedRideData, BluetoothService bluetoothService, IConfigurationManager config)
     {
+        _plannedRideData = plannedRideData;
         _rideData = rideData;
         _bluetoothService = bluetoothService;
         httpClient = new HttpClient();
@@ -111,6 +114,23 @@ public class RideService
         }
        
         return _completedRides;
+    }
+
+    public async Task<List<PlannedRideSummary>> GetUserPlannedRides()
+    {
+        if (_plannedRides.Count != 0)
+        {
+            _plannedRides.Clear();
+        }
+        Settings userSettings = _config.LoadSettings();
+        string url = $"{userSettings.ApiUrl}/users/{userSettings.Username}/plannedRides";
+
+        var response = await httpClient.GetAsync(url);
+
+        if (response.IsSuccessStatusCode)
+        {
+            
+        }
     }
 
     public List<CompletedRideSummary> GetCompletedRideSummariesFromLocalStorage()

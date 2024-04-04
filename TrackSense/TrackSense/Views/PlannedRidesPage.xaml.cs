@@ -5,8 +5,8 @@ namespace TrackSense.Views
 {
     public partial class PlannedRidesPage : ContentPage
     {
-        //readonly Animation animation;
-        public PlannedRidesPage()
+        readonly Animation animation;
+        public PlannedRidesPage(PlannedRidesViewModel viewModel)
         {
             InitializeComponent();
             /*
@@ -18,10 +18,11 @@ namespace TrackSense.Views
 
             viewModel.PropertyChanged += viewModel_PropertyChanged;*/
         }
-        /*
+        
         private void viewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (BindingContext is CompletedRidesViewModel viewModel)
+            /*
+            if (BindingContext is PlannedRidesViewModel viewModel)
             {
                 if (e.PropertyName == nameof(viewModel.IsReceivingData))
                 {
@@ -35,8 +36,8 @@ namespace TrackSense.Views
                         this.AbortAnimation("animate");
                     }
                 }
-            }
+            }*/
         }
-        */
+        
     }
 }
