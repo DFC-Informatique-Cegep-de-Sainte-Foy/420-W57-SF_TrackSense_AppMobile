@@ -6,7 +6,7 @@ namespace TrackSense.Views
     public partial class PlannedRidesPage : ContentPage
     {
         readonly Animation animation;
-        public PlannedRidesPage(PlannedRidesViewModel viewModel)
+        public PlannedRidesPage()
         {
             InitializeComponent();
             /*
