@@ -16,7 +16,6 @@ namespace TrackSense.Services;
 public class RideService
 {
     private ICompletedRideLocalData _rideData;
-    private IPlannedRideLocalData _plannedRideData;
     BluetoothService _bluetoothService;
     CompletedRide _currentRide;
     List<CompletedRideSummary> _completedRides = new();
@@ -24,9 +23,8 @@ public class RideService
     HttpClient httpClient;
     IConfigurationManager _config;
 
-    public RideService(ICompletedRideLocalData rideData, IPlannedRideLocalData plannedRideData, BluetoothService bluetoothService, IConfigurationManager config)
+    public RideService(ICompletedRideLocalData rideData, BluetoothService bluetoothService, IConfigurationManager config)
     {
-        _plannedRideData = plannedRideData;
         _rideData = rideData;
         _bluetoothService = bluetoothService;
         httpClient = new HttpClient();

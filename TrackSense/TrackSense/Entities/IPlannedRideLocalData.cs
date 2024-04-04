@@ -11,8 +11,6 @@ namespace TrackSense.Entities
         void AddPlannedRide(PlannedRide plannedRide);
         List<PlannedRide> ListPlannedRides();
         PlannedRide GetPlannedRideById(Guid plannedRideId);
-        void DeletePlannedRideById(Guid plannedRideId);
-        void DeleteAllPlannedRides();
 
     }
 }
