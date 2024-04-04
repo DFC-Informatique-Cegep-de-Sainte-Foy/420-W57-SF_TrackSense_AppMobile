@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Maui.Media;
+using Microsoft.Extensions.Logging;
 using Plugin.BLE.Abstractions.Contracts;
 using Plugin.BLE;
 using TrackSense.ViewModels;
@@ -66,6 +67,7 @@ After:
             builder.Services.AddTransient<BluetoothWatchDog>();
             builder.Services.AddTransient<CompletedRideStatisticsPage>();
             builder.Services.AddTransient<SettingsPage>();
+            builder.Services.AddTransient<GalleriePage>();
             return builder.Build();
         }
     }

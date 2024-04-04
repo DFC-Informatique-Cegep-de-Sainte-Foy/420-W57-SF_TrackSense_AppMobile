@@ -20,7 +20,7 @@ namespace TrackSense.Configurations
                 {
                     Settings defaultSettings = new Settings()
                     {
-                        ApiUrl = "https://binhnguyen05-001-site1.atempurl.com/api",
+                        ApiUrl = "https://tracksense-api.rapidotron.com/api",
                         Username = "admin"
                     };
                     SaveSettings(defaultSettings);
