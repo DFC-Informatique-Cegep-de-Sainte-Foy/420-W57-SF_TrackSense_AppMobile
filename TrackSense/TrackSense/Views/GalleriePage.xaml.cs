@@ -1,4 +1,3 @@
-using CommunityToolkit.Mvvm.Input;
 using System.Net;
 using ExifLibrary;
 using Minio;
@@ -52,9 +51,7 @@ public partial class GalleriePage : ContentPage
 
                 file.Save(localFilePath);
 
-                //await UploadFileToFtp(localFilePath);
                 await PrepareUploadToMinioBucket(localFilePath, fileName);
-
             }
         }
         else
@@ -113,7 +110,6 @@ public partial class GalleriePage : ContentPage
             var endpoint = "10.10.0.58:9000";
             var accessKey = "n2qsvPKdSi5HPz9kfdRE";
             var secretKey = "kic5lA5pxjqyNvP5Jp4oIWHboYvneuinciZ5Tp90";
-            //var secretKey = "asdfasdfasdf";
 
             try
             {
@@ -126,7 +122,11 @@ public partial class GalleriePage : ContentPage
             }
             catch (Exception ex)
             {
+                //étrangement y'a une exception batarde qui sort ici mais le fichier est bien uploadé...
                 Console.WriteLine(ex.Message);
+#if DEBUG
+                await Shell.Current.DisplayAlert("Erreur", ex.Message, "OK");
+#endif
             }
         }
 
@@ -173,46 +173,6 @@ public partial class GalleriePage : ContentPage
 
     }
 
-    private async Task<bool> UploadFileToFtp(string filePath)
-    {
-        bool resultat = false;
-
-        if (!await ValiderImage(filePath))
-        {
-            string ftpUrl = "ftp://10.201.159.71";
-            string ftpUsername = "tracksense";
-            string ftpPassword = "tracksense";
-
-            Uri serverUri = new Uri($"{ftpUrl}/{Path.GetFileName(filePath)}");
-            //https://learn.microsoft.com/en-us/dotnet/api/system.net.ftpwebrequest?view=net-8.0
-            FtpWebRequest request = (FtpWebRequest)WebRequest.Create(serverUri);
-            request.Method = WebRequestMethods.Ftp.UploadFile;
-            request.Credentials = new NetworkCredential(ftpUsername, ftpPassword);
-
-            byte[] fileContents;
-            using (FileStream sourceStream = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
-            {
-                fileContents = new byte[sourceStream.Length];
-                await sourceStream.ReadAsync(fileContents, 0, fileContents.Length);
-            }
-
-            request.ContentLength = fileContents.Length;
-
-            using (Stream requestStream = request.GetRequestStream())
-            {
-                await requestStream.WriteAsync(fileContents, 0, fileContents.Length);
-            }
-
-            using (FtpWebResponse response = (FtpWebResponse)await request.GetResponseAsync())
-            {
-#if DEBUG
-                    await Shell.Current.DisplayAlert("Upload Complete", $"Status: {response.StatusDescription}", "OK");
-#endif
-                resultat = true;
-            }
-        }
-        return resultat;
-    }
 
     private async Task<Location> GetLocationAsync()
     {
