@@ -1,6 +1,8 @@
 using CommunityToolkit.Mvvm.Input;
 using System.Net;
 using ExifLibrary;
+using Minio;
+using Minio.DataModel.Args;
 
 namespace TrackSense.Views;
 
@@ -50,7 +52,8 @@ public partial class GalleriePage : ContentPage
 
                 file.Save(localFilePath);
 
-                await UploadFileToFtp(localFilePath);
+                //await UploadFileToFtp(localFilePath);
+                await PrepareUploadToMinioBucket(localFilePath, fileName);
 
             }
         }
@@ -98,20 +101,78 @@ public partial class GalleriePage : ContentPage
         }
     }
 
-    private async Task<bool> UploadToMinioBucket(/*MinioClient minio*/string filePath)
+    private async Task<bool> PrepareUploadToMinioBucket(string filePath, string fileName)
     {
         bool resultat = false;
 
         if (!await ValiderImage(filePath))
         {
-            var bucketname = "UserID";
-            var objectname = Path.GetFileName(filePath);
-            var location = "us-east-1";
-            var contentType = GetContentType(filePath);
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12
+                                               | SecurityProtocolType.Tls11
+                                               | SecurityProtocolType.Tls12;
+            var endpoint = "10.10.0.58:9000";
+            var accessKey = "n2qsvPKdSi5HPz9kfdRE";
+            var secretKey = "kic5lA5pxjqyNvP5Jp4oIWHboYvneuinciZ5Tp90";
+            //var secretKey = "asdfasdfasdf";
+
+            try
+            {
+                using var minio = new MinioClient()
+                    .WithEndpoint(endpoint)
+                    .WithCredentials(accessKey, secretKey)
+                    //.WithSSL()
+                    .Build();
+                await UploadToMinio(minio, filePath, fileName).ConfigureAwait(true);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         return resultat;
     }
+
+    private static async Task UploadToMinio(IMinioClient minio, string filePath, string fileName)
+    {
+        var bucketName = "test2"; //faudrait mettre le userId ou ketchose...
+        var location = "";
+        var objectName = fileName;
+        var contentType = GetContentType(filePath);
+
+        try
+        {
+            var bktExistArgs = new BucketExistsArgs()
+                .WithBucket(bucketName);
+            var found = await minio.BucketExistsAsync(bktExistArgs).ConfigureAwait(false);
+            if (!found)
+            {
+                var mkBktArgs = new MakeBucketArgs()
+                    .WithBucket(bucketName)
+                    .WithLocation(location);
+                await minio.MakeBucketAsync(mkBktArgs).ConfigureAwait(false);
+#if DEBUG
+                await Shell.Current.DisplayAlert("Bucket créé: ", bucketName, "OK");
+#endif
+            }
+
+            var putObjectArgs = new PutObjectArgs()
+                .WithBucket(bucketName)
+                .WithObject(objectName)
+                .WithFileName(filePath)
+                .WithContentType(contentType);
+            _ = await minio.PutObjectAsync(putObjectArgs).ConfigureAwait(false);
+#if DEBUG
+            await Shell.Current.DisplayAlert("Objet créé: ", objectName, "OK");
+#endif
+        }
+        catch (Exception e)
+        {
+            await Shell.Current.DisplayAlert(fileName, e.Message, "OK");
+        }
+
+    }
+
     private async Task<bool> UploadFileToFtp(string filePath)
     {
         bool resultat = false;
