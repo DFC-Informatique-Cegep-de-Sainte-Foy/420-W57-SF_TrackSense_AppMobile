@@ -4,12 +4,20 @@
              x:Class="TrackSense.Views.GalleriePage"
              xmlns:viewmodel="clr-namespace:TrackSense.ViewModels"
              Title="{Binding Title}">
-    <VerticalStackLayout>
+    <VerticalStackLayout
+        Spacing = "25"
+        Padding = "30,0">
         <Label 
-            Text="Welcome to .NET MAUI!"
+            Text="Gallerie"
+            FontSize="30"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
         <Button Text="Ouvrir la gallerie"
-                Command="{Binding PrendrePhoto}" />
+                Command="{Binding OuvrirGallerie}" 
+                Clicked="OuvrirGallerie"/>
+        <Button Text="Prendre une nouvelle photo"
+                Command="{Binding PrendrePhoto}" 
+                Clicked="PrendrePhoto"
+                VerticalOptions="End"/>
     </VerticalStackLayout>
 </ContentPage>

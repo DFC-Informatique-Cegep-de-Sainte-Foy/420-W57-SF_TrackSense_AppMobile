@@ -12,7 +12,7 @@ public partial class GalleriePage : ContentPage
 		InitializeComponent();
 	}
 
-    private async void PrendrePhoto()
+    private async void PrendrePhoto(object sender, EventArgs e)
     {
         if (MediaPicker.Default.IsCaptureSupported)
         {
@@ -107,7 +107,7 @@ public partial class GalleriePage : ContentPage
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12
                                                | SecurityProtocolType.Tls11
                                                | SecurityProtocolType.Tls12;
-            var endpoint = "10.10.0.58:9000";
+            var endpoint = "10.201.176.179:9000";
             var accessKey = "n2qsvPKdSi5HPz9kfdRE";
             var secretKey = "kic5lA5pxjqyNvP5Jp4oIWHboYvneuinciZ5Tp90";
 
@@ -122,10 +122,10 @@ public partial class GalleriePage : ContentPage
             }
             catch (Exception ex)
             {
-                //étrangement y'a une exception batarde qui sort ici mais le fichier est bien uploadé...
-                Console.WriteLine(ex.Message);
 #if DEBUG
                 await Shell.Current.DisplayAlert("Erreur", ex.Message, "OK");
+#elif RELEASE
+                await Shell.Current.DisplayAlert("Erreur", "Une erreur est survenue lors la préparation pour l'envoi de l'image", "OK");
 #endif
             }
         }
@@ -144,13 +144,13 @@ public partial class GalleriePage : ContentPage
         {
             var bktExistArgs = new BucketExistsArgs()
                 .WithBucket(bucketName);
-            var found = await minio.BucketExistsAsync(bktExistArgs).ConfigureAwait(false);
+            var found = await minio.BucketExistsAsync(bktExistArgs).ConfigureAwait(true);
             if (!found)
             {
                 var mkBktArgs = new MakeBucketArgs()
                     .WithBucket(bucketName)
                     .WithLocation(location);
-                await minio.MakeBucketAsync(mkBktArgs).ConfigureAwait(false);
+                await minio.MakeBucketAsync(mkBktArgs).ConfigureAwait(true);
 #if DEBUG
                 await Shell.Current.DisplayAlert("Bucket créé: ", bucketName, "OK");
 #endif
@@ -161,14 +161,21 @@ public partial class GalleriePage : ContentPage
                 .WithObject(objectName)
                 .WithFileName(filePath)
                 .WithContentType(contentType);
-            _ = await minio.PutObjectAsync(putObjectArgs).ConfigureAwait(false);
+            _ = await minio.PutObjectAsync(putObjectArgs).ConfigureAwait(true);
 #if DEBUG
             await Shell.Current.DisplayAlert("Objet créé: ", objectName, "OK");
+#elif RELEASE
+            await Shell.Current.DisplayAlert("Téléversement réussi", "L'image a été téléversée avec succès", "OK");
 #endif
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            await Shell.Current.DisplayAlert(fileName, e.Message, "OK");
+#if DEBUG
+            Console.WriteLine(ex.Message);
+            await Shell.Current.DisplayAlert(fileName, ex.Message, "OK");
+#elif RELEASE
+            await Shell.Current.DisplayAlert("Erreur", "Une erreur est survenue lors du téléversement de l'image", "OK");
+#endif
         }
 
     }
@@ -188,28 +195,47 @@ public partial class GalleriePage : ContentPage
         }
         catch (FeatureNotSupportedException fnsEx)
         {
+#if DEBUG
+            await Shell.Current.DisplayAlert("Erreur", fnsEx.Message, "OK");
+#elif RELEASE
             await Shell.Current.DisplayAlert("Erreur", "La localisation n'est pas supportée", "OK");
+#endif
         }
         catch (FeatureNotEnabledException fneEx)
         {
-            await Shell.Current.DisplayAlert("Error", "La localisation n'est pas activée", "OK");
+#if DEBUG
+            await Shell.Current.DisplayAlert("Erreur", fneEx.Message, "OK");
+#elif RELEASE
+            await Shell.Current.DisplayAlert("Erreur", "La localisation n'est pas activée", "OK");
+#endif
         }
         catch (PermissionException pEx)
         {
-            await Shell.Current.DisplayAlert("Error", "La permission pour la localisation n'est pas activée", "OK");
+#if DEBUG
+            await Shell.Current.DisplayAlert("Erreur", pEx.Message, "OK");
+#elif RELEASE
+            await Shell.Current.DisplayAlert("Erreur", "La permission pour la localisation n'est pas activée", "OK");
+#endif
         }
         catch (Exception ex)
         {
-            await Shell.Current.DisplayAlert("Error", "Une erreur est survenue", "OK");
+#if DEBUG
+            await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
+#elif RELEASE
+            await Shell.Current.DisplayAlert("Erreur", "Une erreur est survenue lors de la récupération de la localisation", "OK");
+#endif
         }
 
         return null;
     }
 
+    private async void OuvrirGallerie(object sender, EventArgs e)
+    {
+        await Shell.Current.DisplayAlert("Ouvrir la gallerie", "Pas encore implémenté", "OK");
+    }
+
     protected override void OnAppearing()
     {
         base.OnAppearing();
-
-        PrendrePhoto();
     }
 }
