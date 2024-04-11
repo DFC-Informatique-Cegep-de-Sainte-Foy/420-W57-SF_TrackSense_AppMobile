@@ -13,11 +13,8 @@
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
         <Button Text="Ouvrir la gallerie"
-                Command="{Binding OuvrirGallerie}" 
-                Clicked="OuvrirGallerie"/>
+                Command="{Binding OuvrirGallerieCommand}" />
         <Button Text="Prendre une nouvelle photo"
-                Command="{Binding PrendrePhoto}" 
-                Clicked="PrendrePhoto"
-                VerticalOptions="End"/>
+                Command="{Binding PrendrePhotoCommand}" />
     </VerticalStackLayout>
 </ContentPage>

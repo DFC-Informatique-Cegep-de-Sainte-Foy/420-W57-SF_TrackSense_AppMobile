@@ -21,8 +21,11 @@ namespace TrackSense.Configurations
                     Settings defaultSettings = new Settings()
                     {
                         ApiUrl = "https://tracksense-api.rapidotron.com/api",
-                        Username = "admin"
-                    };
+                        Username = "admin",
+                        Endpoint = "10.201.176.179:9000",
+                        AccessKey = "n2qsvPKdSi5HPz9kfdRE",
+                        SecretKey = "kic5lA5pxjqyNvP5Jp4oIWHboYvneuinciZ5Tp90"
+                };
                     SaveSettings(defaultSettings);
                 }
             }
