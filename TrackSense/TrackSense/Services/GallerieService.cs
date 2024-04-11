@@ -1,20 +1,9 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Newtonsoft.Json;
-using Plugin.BLE.Abstractions.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Net.Http.Json;
-using System.Text;
-using TrackSense.Entities;
-using TrackSense.Services.Bluetooth;
-using TrackSense.Services.API.APIDTO;
+﻿using TrackSense.Entities;
 using TrackSense.Configurations;
 using ExifLibrary;
 using Minio.DataModel.Args;
 using Minio;
 using System.Net;
-using ExCSS;
 
 namespace TrackSense.Services;
 
