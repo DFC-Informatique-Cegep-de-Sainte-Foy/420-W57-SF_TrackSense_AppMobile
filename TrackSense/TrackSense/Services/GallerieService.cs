@@ -4,6 +4,8 @@ using ExifLibrary;
 using Minio.DataModel.Args;
 using Minio;
 using System.Net;
+using Minio.Exceptions;
+using Minio.DataModel;
 
 namespace TrackSense.Services;
 
@@ -17,7 +19,7 @@ public class GallerieService
     public GallerieService(UserService userService, IConfigurationManager configurationManager)
     {
         _configuration = configurationManager;
-        _userService = userService;
+        //_userService = userService;
         _userSettings = _configuration.LoadSettings();
     }
 
@@ -142,9 +144,9 @@ public class GallerieService
         return resultat;
     }
 
-    private static async Task UploadToMinio(IMinioClient minio, string filePath, string fileName)
+    private async Task UploadToMinio(IMinioClient minio, string filePath, string fileName)
     {
-        var bucketName = "test2"; //faudrait mettre le userId ou ketchose...
+        var bucketName = _userSettings.Username; //faudrait mettre le userId ou ketchose...
         var location = "";
         var objectName = fileName;
         var contentType = GetContentType(filePath);
@@ -175,6 +177,15 @@ public class GallerieService
             await Shell.Current.DisplayAlert("Objet créé: ", objectName, "OK");
 #elif RELEASE
             await Shell.Current.DisplayAlert("Téléversement réussi", "L'image a été téléversée avec succès", "OK");
+#endif
+        }
+
+        catch (MinioException minioEx)
+        {
+#if DEBUG
+            await Shell.Current.DisplayAlert("Erreur Minio", minioEx.Message, "OK");
+#elif RELEASE
+            await Shell.Current.DisplayAlert("Erreur Minio", "Une erreur est survenue lors du téléversement vers Minio", "OK");
 #endif
         }
         catch (Exception ex)
@@ -240,6 +251,75 @@ public class GallerieService
 
     public async Task OuvrirGallerie()
     {
-        await Shell.Current.DisplayAlert("Ouvrir la gallerie", "Service pas encore implémenté", "OK");
+        try
+        {
+            PrepareGetGalleryFromBucket();
+
+        }
+        catch(Exception e)
+        {
+            await Shell.Current.DisplayAlert("Erreur OuvrirGallerie", e.Message, "OK");
+        }
+    }
+
+    private async Task PrepareGetGalleryFromBucket()
+    {
+        var endpoint = _userSettings.Endpoint;
+        var accessKey = _userSettings.AccessKey;
+        var secretKey = _userSettings.SecretKey;
+
+        try
+        {
+            using var minio = new MinioClient()
+                .WithEndpoint(endpoint)
+                .WithCredentials(accessKey, secretKey)
+                //.WithSSL()
+                .Build();
+            await GetGalleryFromMinio(minio).ConfigureAwait(true);
+        }
+        catch (MinioException minioEx)
+        {
+            await Shell.Current.DisplayAlert("Erreur Minio", minioEx.Message, "OK");
+        }
+        catch (Exception ex)
+        {
+            await Shell.Current.DisplayAlert("Erreur PrepareGetGalleryFromBucket", ex.Message, "OK");
+        }
+    }
+
+    private async Task GetGalleryFromMinio(IMinioClient minio)
+    {
+        var bucketName = _userSettings.Username;
+
+        try
+        {
+            var bktExistArgs = new BucketExistsArgs()
+                .WithBucket(bucketName);
+            var found = await minio.BucketExistsAsync(bktExistArgs).ConfigureAwait(false);
+
+            if (!found)
+            {
+                await Shell.Current.DisplayAlert("Erreur", "Le bucket n'existe pas", "OK");
+                return;
+            }
+
+            ListObjectsArgs args = new ListObjectsArgs()
+                .WithBucket(bucketName)
+                //.WithPrefix("prefix")
+                .WithRecursive(true);
+            IObservable<Item> observable = minio.ListObjectsAsync(args);
+            IDisposable subscription = observable.Subscribe(
+                    item => Console.WriteLine("OnNext: {0}", item.Key),
+                    ex => Console.WriteLine("OnError: {0}", ex.Message),
+                    () => Console.WriteLine("OnComplete: {0}"));
+        }
+        catch (MinioException minioEx)
+        {
+            await Shell.Current.DisplayAlert("Erreur Minio", minioEx.Message, "OK");
+        }
+        catch (Exception ex)
+        {
+            await Shell.Current.DisplayAlert("Erreur", ex.Message, "OK");
+        }
     }
 }
