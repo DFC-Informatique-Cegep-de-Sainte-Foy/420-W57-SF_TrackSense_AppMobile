@@ -6,22 +6,21 @@ namespace TrackSense.Views
     public partial class PlannedRidesPage : ContentPage
     {
         readonly Animation animation;
-        public PlannedRidesPage()
+        public PlannedRidesPage(PlannedRidesViewModel viewModel)
         {
             InitializeComponent();
-            /*
+            
             double screenWidth = DeviceDisplay.MainDisplayInfo.Width / DeviceDisplay.MainDisplayInfo.Density;
             animation = new Animation(v => receptionImg.TranslationX = v,
                 -40, screenWidth, Easing.SinIn);
 
             BindingContext = viewModel;
 
-            viewModel.PropertyChanged += viewModel_PropertyChanged;*/
+            viewModel.PropertyChanged += viewModel_PropertyChanged;
         }
         
         private void viewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            /*
             if (BindingContext is PlannedRidesViewModel viewModel)
             {
                 if (e.PropertyName == nameof(viewModel.IsReceivingData))
@@ -36,7 +35,7 @@ namespace TrackSense.Views
                         this.AbortAnimation("animate");
                     }
                 }
-            }*/
+            }
         }
         
     }

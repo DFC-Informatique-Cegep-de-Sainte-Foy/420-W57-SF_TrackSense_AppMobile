@@ -11,7 +11,7 @@ namespace TrackSense.Services.API.APIDTO
     {
         public string PlannedRideId { get; set; }
         public string PlannedRideName { get; set; }
-        public TimeSpan AvgDuration { get; set; }
+        //public TimeSpan AvgDuration { get; set; }
         public double Distance { get; set; }
 
         public PlannedRideSummaryDTO()
@@ -26,7 +26,7 @@ namespace TrackSense.Services.API.APIDTO
             {
                 PlannedRideId = new Guid(this.PlannedRideId),
                 PlannedRideName = this.PlannedRideName,
-                AvgDuration = this.AvgDuration,
+                //AvgDuration = this.AvgDuration,
                 Distance = this.Distance
             };  
         }

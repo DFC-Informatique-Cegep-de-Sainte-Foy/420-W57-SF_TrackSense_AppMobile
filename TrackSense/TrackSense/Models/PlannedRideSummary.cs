@@ -10,7 +10,7 @@ namespace TrackSense.Models
     {
         public Guid PlannedRideId { get; set; }
         public string PlannedRideName { get; set; }
-        public TimeSpan? AvgDuration { get; set; }
+        //public TimeSpan? AvgDuration { get; set; }
         public double Distance { get; set; }
 
         public PlannedRideSummary(Entities.PlannedRideSummary entite)
@@ -22,7 +22,7 @@ namespace TrackSense.Models
 
             PlannedRideId = entite.PlannedRideId;
             PlannedRideName = entite.PlannedRideName;
-            AvgDuration = entite.AvgDuration;
+            //AvgDuration = entite.AvgDuration;
             Distance = entite.Distance;
         }
     }

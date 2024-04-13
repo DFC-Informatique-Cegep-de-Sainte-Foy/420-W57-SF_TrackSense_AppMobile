@@ -21,25 +21,25 @@
              Icon="settings_light.svg"
              Route="CompletedRidesPage">
             <ShellContent Title="Effectuees" ContentTemplate="{DataTemplate views:CompletedRidesPage}" />
-            <ShellContent Title="Sauvegardee" ContentTemplate="{DataTemplate views:PlannedRidesPage}" />
+            <ShellContent Title="Planifiées" ContentTemplate="{DataTemplate views:PlannedRidesPage}" />
         </Tab>
 
         <Tab Title="Position interet"
              Icon="settings_light.svg"
              Route="CompletedRidesPage">
-            <ShellContent Title="Sauvegardee" ContentTemplate="{DataTemplate views:CompletedRidesPage}" />
-        </Tab>
-
-        <Tab Title="Settings"
-             Icon="settings_light.svg"
-             Route="SettingsPage">
-            <ShellContent ContentTemplate="{DataTemplate views:SettingsPage}" />
+            <ShellContent Title="Sauvegardée" ContentTemplate="{DataTemplate views:CompletedRidesPage}" />
         </Tab>
 
         <Tab Title="Gallerie"
              Icon="settings_light.svg"
              Route="GalleryPage">
             <ShellContent ContentTemplate="{DataTemplate views:GalleriePage}" />
+        </Tab>
+
+        <Tab Title="Settings"
+             Icon="settings_light.svg"
+             Route="SettingsPage">
+            <ShellContent ContentTemplate="{DataTemplate views:SettingsPage}" />
         </Tab>
 
     </TabBar>
