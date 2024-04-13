@@ -61,11 +61,13 @@ namespace TrackSense
             builder.Services.AddSingleton<MainViewModel>();
             builder.Services.AddSingleton<CompletedRidesViewModel>();
             builder.Services.AddSingleton<CompletedRideStatisticsViewModel>();
+            builder.Services.AddSingleton<PlannedRidesViewModel>();
             builder.Services.AddSingleton<SettingsViewModel>();
             builder.Services.AddSingleton<GallerieViewModel>();
 
             builder.Services.AddSingleton<MainPage>();
-            builder.Services.AddSingleton<CompletedRidesPage>();
+            builder.Services.AddTransient<CompletedRidesPage>();
+            builder.Services.AddTransient<PlannedRidesPage>();
             builder.Services.AddTransient<BluetoothWatchDog>();
             builder.Services.AddTransient<CompletedRideStatisticsPage>();
             builder.Services.AddTransient<SettingsPage>();

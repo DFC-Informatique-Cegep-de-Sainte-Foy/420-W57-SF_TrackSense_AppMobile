@@ -139,6 +139,8 @@ public partial class PlannedRidesViewModel : BaseViewModel
                 //Entities.CompletedRide completedRide = _rideService.GetCompletedRideFromLocalStorage(rideSummary.CompletedRideId
 
                 //Référence le shell, donc pas bonne pratique, il faudrait une interface.
+
+                // ICI EST LA REDIRECTION A LA PAGE STATISTIQUES QUAND ON CLICK SUR LE SUMMARY (A AJOUTER DANS NEXT USERSTORY)
                 /*await Shell.Current.GoToAsync($"{nameof(PlannedRideStatisticsPage)}", true,
                     new Dictionary<string, object>
                     {
