@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TrackSense.Views.CreateNewPlannedRidePage"
+             xmlns:model="clr-namespace:TrackSense.Models"
+             xmlns:viewmodel="clr-namespace:TrackSense.ViewModels"
+             Title="{Binding Title}"
+             x:DataType="viewmodel:CreateNewPlannedRideViewModel">
+
+    <Grid RowDefinitions="Auto, Auto, Auto"
+          ColumnDefinitions=".50*, .50*"
+          Padding="10"
+          RowSpacing="10"
+          ColumnSpacing="10">
+
+        <Grid x:Name="mapContainer"
+              Grid.Row="0"
+              Padding="10">
+
+        </Grid>
+
+        <Button Text="Nouveau point"
+                Grid.Row="1"
+                Grid.Column="0"
+                FontAttributes="Bold" />
+
+        <Button Text="Placer le point"
+                Grid.Row="1"
+                Grid.Column="1"
+                FontAttributes="Bold" />
+
+        <Button Text="Créer le trajet"
+                Grid.Row="2"
+                Grid.Column="0"
+                FontAttributes="Bold" />
+
+        <Button Text="Annuler"
+                Grid.Row="2"
+                Grid.Column="1"
+                FontAttributes="Bold" />
+
+
+    </Grid>
+</ContentPage>
