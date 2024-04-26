@@ -10,7 +10,7 @@ namespace TrackSense.Entities
     {
         public string UserLogin { get; set; } = null!;
         public Guid PlannedRideId { get; set; } = Guid.Empty!;
+        public string PlannedRideName { get; set; } = string.Empty!;
         public List<PlannedRidePoint> PlannedRidePoints { get; set; } = null!;
-        public PlannedRideStatistics? Statistics { get; set; } = null;
     }
 }

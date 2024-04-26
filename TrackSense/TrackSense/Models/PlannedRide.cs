@@ -9,9 +9,9 @@ namespace TrackSense.Models
     public class PlannedRide
     {
         public Guid PlannedRideId { get; set; }
-        public Guid PlannedRideName { get; set; }
+        public string PlannedRideName { get; set; }
         public List<PlannedRidePoint> PlannedRidePoints { get; set; }
-        public PlannedRideStatistics Statistics { get; set; }
+
         public PlannedRide(Entities.PlannedRide entite)
         {
             if (entite is null)
@@ -21,7 +21,16 @@ namespace TrackSense.Models
 
             this.PlannedRideId = entite.PlannedRideId;
             this.PlannedRidePoints = entite.PlannedRidePoints.Select(entite => new PlannedRidePoint(entite)).ToList();
-            this.Statistics = new PlannedRideStatistics(entite.Statistics);
+        }
+
+        public Entities.PlannedRide ToEntity()
+        {
+            return new Entities.PlannedRide()
+            {
+                PlannedRideId = this.PlannedRideId,
+                PlannedRideName = this.PlannedRideName,
+                PlannedRidePoints = this.PlannedRidePoints.Select(p => p.ToEntity()).ToList(),
+            };
         }
     }
 }
