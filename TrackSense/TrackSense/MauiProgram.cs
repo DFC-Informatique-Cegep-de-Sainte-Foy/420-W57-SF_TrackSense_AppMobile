@@ -43,21 +43,7 @@ namespace TrackSense
             builder.Services.AddSingleton<UserService>();
             builder.Services.AddSingleton<GallerieService>();
 
-
-            /* Unmerged change from project 'TrackSense (net7.0-android)'
-            Before:
-                        builder.Services.AddSingleton<TrackSenseDevicesViewModel>();
-            After:
-                        builder.Services.AddSingleton<ViewModels.BluetoothWatchDog>();
-            */
-
-            /* Unmerged change from project 'TrackSense (net7.0-ios)'
-            Before:
-                        builder.Services.AddSingleton<TrackSenseDevicesViewModel>();
-            After:
-                        builder.Services.AddSingleton<ViewModels.BluetoothWatchDog>();
-            */
-            builder.Services.AddSingleton<BluetoothWatchDogViewModel>();
+            builder.Services.AddSingleton<TrackSenseDevicesViewModel>();
             builder.Services.AddSingleton<MainViewModel>();
             builder.Services.AddSingleton<CompletedRidesViewModel>();
             builder.Services.AddSingleton<CompletedRideStatisticsViewModel>();
@@ -68,7 +54,7 @@ namespace TrackSense
             builder.Services.AddSingleton<MainPage>();
             builder.Services.AddTransient<CompletedRidesPage>();
             builder.Services.AddTransient<PlannedRidesPage>();
-            builder.Services.AddTransient<BluetoothWatchDog>();
+            builder.Services.AddTransient<TrackSenseDevicesPage>();
             builder.Services.AddTransient<CompletedRideStatisticsPage>();
             builder.Services.AddTransient<SettingsPage>();
             builder.Services.AddTransient<GalleriePage>();

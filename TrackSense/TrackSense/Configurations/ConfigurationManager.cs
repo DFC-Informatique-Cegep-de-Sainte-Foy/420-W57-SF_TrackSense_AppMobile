@@ -22,7 +22,7 @@ namespace TrackSense.Configurations
                     {
                         ApiUrl = "https://tracksense-api.rapidotron.com/api",
                         Username = "admin",
-                        Endpoint = "10.201.176.179:9000",
+                        Endpoint = "10.201.46.221:9000",
                         AccessKey = "n2qsvPKdSi5HPz9kfdRE",
                         SecretKey = "kic5lA5pxjqyNvP5Jp4oIWHboYvneuinciZ5Tp90"
                 };

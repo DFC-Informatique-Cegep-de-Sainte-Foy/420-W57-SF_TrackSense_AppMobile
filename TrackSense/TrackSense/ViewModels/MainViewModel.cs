@@ -116,7 +116,7 @@ public partial class MainViewModel : BaseViewModel
 
         if (!this.IsConnected)
         {
-            await Shell.Current.GoToAsync(nameof(BluetoothWatchDog));
+            await Shell.Current.GoToAsync(nameof(TrackSenseDevicesPage));
         }
     }
 

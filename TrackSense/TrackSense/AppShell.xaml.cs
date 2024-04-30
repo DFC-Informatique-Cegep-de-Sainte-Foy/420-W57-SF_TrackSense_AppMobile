@@ -8,7 +8,7 @@ namespace TrackSense
         {
             InitializeComponent();
 
-            Routing.RegisterRoute(nameof(BluetoothWatchDog), typeof(BluetoothWatchDog));
+            Routing.RegisterRoute(nameof(TrackSenseDevicesPage), typeof(TrackSenseDevicesPage));
             Routing.RegisterRoute(nameof(CompletedRideStatisticsPage), typeof(CompletedRideStatisticsPage));
             Routing.RegisterRoute(nameof(SettingsPage), typeof(SettingsPage));
         }
