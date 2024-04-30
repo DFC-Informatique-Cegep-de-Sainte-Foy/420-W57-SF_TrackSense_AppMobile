@@ -1,34 +1,44 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using TrackSense.Configurations;
 using TrackSense.Models;
 using TrackSense.Services;
 
 namespace TrackSense.ViewModels
 {
-    [QueryProperty("CreateNewPlannedRide", "CreateNewPlannedRide")]
+    [QueryProperty("NewPlannedRide", "NewPlannedRide")]
     public partial class CreateNewPlannedRideViewModel : BaseViewModel
     {
         RideService _rideService;
-        IConnectivity _connectivity;
-        PlannedRide plannedRide;
+        public IConnectivity _connectivity;
+        IGeolocation _geolocation;
+
+        [ObservableProperty]
+        PlannedRide newPlannedRide = new();
 
         [ObservableProperty]
         bool isConnected;
 
-
-        public CreateNewPlannedRideViewModel(IConnectivity connectivity, RideService rideService)
+        public CreateNewPlannedRideViewModel(IConnectivity connectivity, IGeolocation geolocation, RideService rideService)
         {
-            Title = "CreateNewPlannedRide";
+            Title = "Nouveau trajet planifié";
             _connectivity = connectivity;
+            _geolocation = geolocation;
             _rideService = rideService;
         }
 
-
+        [RelayCommand]
         async Task CreateNewPlannedRide()
         {
-            // setup le PlannedRide de type Model
-            Entities.PlannedRide plannedRideEntity = plannedRide.ToEntity();
+            // setup le PlannedRide de type Model --> possiblement executer dans CreateNewPlannedRidePage.xaml.cs
+            Entities.PlannedRide plannedRideEntity = newPlannedRide.ToEntity();
             _rideService.PostPlannedRideAsync(plannedRideEntity);
+        }
+
+        [RelayCommand]
+        public async Task<Location> GetCurrentLocation()
+        {
+            return _geolocation.GetLocationAsync().Result;
         }
 
         private async Task<bool> CheckInternetConnection()

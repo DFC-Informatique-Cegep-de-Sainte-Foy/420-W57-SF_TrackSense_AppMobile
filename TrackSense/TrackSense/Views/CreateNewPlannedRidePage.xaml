@@ -7,15 +7,17 @@
              Title="{Binding Title}"
              x:DataType="viewmodel:CreateNewPlannedRideViewModel">
 
-    <Grid RowDefinitions="Auto, Auto, Auto"
+    <Grid RowDefinitions="*, Auto, Auto"
           ColumnDefinitions=".50*, .50*"
           Padding="10"
           RowSpacing="10"
           ColumnSpacing="10">
 
         <Grid x:Name="mapContainer"
+              Grid.ColumnSpan="2"
               Grid.Row="0"
-              Padding="10">
+              Padding="2,2,2,2"
+              BackgroundColor="#004F5C">
 
         </Grid>
 
@@ -32,11 +34,13 @@
         <Button Text="Créer le trajet"
                 Grid.Row="2"
                 Grid.Column="0"
+                BackgroundColor="Green"
                 FontAttributes="Bold" />
 
         <Button Text="Annuler"
                 Grid.Row="2"
                 Grid.Column="1"
+                BackgroundColor="DarkRed"
                 FontAttributes="Bold" />
 
 

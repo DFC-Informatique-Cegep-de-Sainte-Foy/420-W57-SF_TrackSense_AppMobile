@@ -34,6 +34,7 @@ namespace TrackSense
             builder.Services.AddSingleton<IBluetoothLE>(CrossBluetoothLE.Current);
             builder.Services.AddSingleton<IAdapter>(CrossBluetoothLE.Current.Adapter);
             builder.Services.AddSingleton<IConnectivity>(Connectivity.Current);
+            builder.Services.AddSingleton<IGeolocation>(Geolocation.Default);
             builder.Services.AddSingleton<IConfigurationManager, ConfigurationManager>();
 
             builder.Services.AddSingleton<ICompletedRideLocalData, RideData>();
@@ -62,12 +63,14 @@ namespace TrackSense
             builder.Services.AddSingleton<CompletedRidesViewModel>();
             builder.Services.AddSingleton<CompletedRideStatisticsViewModel>();
             builder.Services.AddSingleton<PlannedRidesViewModel>();
+            builder.Services.AddSingleton<CreateNewPlannedRideViewModel>();
             builder.Services.AddSingleton<SettingsViewModel>();
             builder.Services.AddSingleton<GallerieViewModel>();
 
             builder.Services.AddSingleton<MainPage>();
             builder.Services.AddTransient<CompletedRidesPage>();
             builder.Services.AddTransient<PlannedRidesPage>();
+            builder.Services.AddTransient<CreateNewPlannedRidePage>();
             builder.Services.AddTransient<BluetoothWatchDog>();
             builder.Services.AddTransient<CompletedRideStatisticsPage>();
             builder.Services.AddTransient<SettingsPage>();

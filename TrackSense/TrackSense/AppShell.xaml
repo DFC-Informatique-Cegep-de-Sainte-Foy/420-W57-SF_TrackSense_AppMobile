@@ -12,27 +12,32 @@
     <TabBar>
         
         <Tab Title="Home"
-             Icon="settings_light.svg"
+             Icon="home_light.png"
              Route="MainPage">
             <ShellContent ContentTemplate="{DataTemplate views:MainPage}" />
         </Tab>
 
         <Tab Title="Trajets"
-             Icon="settings_light.svg"
+             Icon="itinerary_light.png"
              Route="CompletedRidesPage">
             <ShellContent Title="Effectuees" ContentTemplate="{DataTemplate views:CompletedRidesPage}" />
             <ShellContent Title="Planifiées" ContentTemplate="{DataTemplate views:PlannedRidesPage}" />
+        </Tab>
+
+        <Tab Title="Créer Trajet"
+             Icon="itinerary_light.png"
+             Route="CreateNewPlannedRidePage">
             <ShellContent Title="Nouveau" ContentTemplate="{DataTemplate views:CreateNewPlannedRidePage}" />
         </Tab>
 
-        <Tab Title="Position interet"
-             Icon="settings_light.svg"
+        <Tab Title="Point d'intérêt"
+             Icon="interest_light.png"
              Route="CompletedRidesPage">
             <ShellContent Title="Sauvegardée" ContentTemplate="{DataTemplate views:CompletedRidesPage}" />
         </Tab>
 
         <Tab Title="Gallerie"
-             Icon="settings_light.svg"
+             Icon="gallery_light.png"
              Route="GalleryPage">
             <ShellContent ContentTemplate="{DataTemplate views:GalleriePage}" />
         </Tab>
