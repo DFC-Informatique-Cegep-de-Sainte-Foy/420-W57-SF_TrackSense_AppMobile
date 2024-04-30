@@ -29,7 +29,9 @@ public class GallerieService
         {
             FileResult photo = await MediaPicker.Default.CapturePhotoAsync();
 
-            var location = await GetLocationAsync();
+            var LocationService = new LocationService();
+
+            var location = await LocationService.GetLocationAsync();
 
             if (photo != null && location != null)
             {
@@ -82,7 +84,7 @@ public class GallerieService
         }
 
         FileInfo fileInfo = new FileInfo(filePath);
-        long maxFileSize = 25 * 1024 * 1024; // 25 MB ça devrait être suffisant sauf pour les frais chier avec des caméras de 200 megapixels gens S23 Ultra...
+        long maxFileSize = 25 * 1024 * 1024; // 25 MB ça devrait être suffisant sauf pour les comiques avec des caméras de 200 megapixels genre S23 Ultra...
         if (fileInfo.Length > maxFileSize)
         {
             await Shell.Current.DisplayAlert("Téléversement échoué", "La taille de l'image ne devrait pas dépasser 20Mo.", "OK");
@@ -200,54 +202,6 @@ public class GallerieService
 
     }
 
-
-    private async Task<Location> GetLocationAsync()
-    {
-        try
-        {
-            var request = new GeolocationRequest(GeolocationAccuracy.Best);
-            var location = await Geolocation.GetLocationAsync(request);
-
-            if (location != null)
-            {
-                return location;
-            }
-        }
-        catch (FeatureNotSupportedException fnsEx)
-        {
-#if DEBUG
-            await Shell.Current.DisplayAlert("Erreur", fnsEx.Message, "OK");
-#elif RELEASE
-            await Shell.Current.DisplayAlert("Erreur", "La localisation n'est pas supportée", "OK");
-#endif
-        }
-        catch (FeatureNotEnabledException fneEx)
-        {
-#if DEBUG
-            await Shell.Current.DisplayAlert("Erreur", fneEx.Message, "OK");
-#elif RELEASE
-            await Shell.Current.DisplayAlert("Erreur", "La localisation n'est pas activée", "OK");
-#endif
-        }
-        catch (PermissionException pEx)
-        {
-#if DEBUG
-            await Shell.Current.DisplayAlert("Erreur", pEx.Message, "OK");
-#elif RELEASE
-            await Shell.Current.DisplayAlert("Erreur", "La permission pour la localisation n'est pas activée", "OK");
-#endif
-        }
-        catch (Exception ex)
-        {
-#if DEBUG
-            await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
-#elif RELEASE
-            await Shell.Current.DisplayAlert("Erreur", "Une erreur est survenue lors de la récupération de la localisation", "OK");
-#endif
-        }
-
-        return null;
-    }
 
     public async Task OuvrirGallerie()
     {
