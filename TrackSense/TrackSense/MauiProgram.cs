@@ -58,7 +58,7 @@ namespace TrackSense
             After:
                         builder.Services.AddSingleton<ViewModels.BluetoothWatchDog>();
             */
-            builder.Services.AddSingleton<BluetoothWatchDogViewModel>();
+            builder.Services.AddSingleton<TrackSenseDevicesViewModel>();
             builder.Services.AddSingleton<MainViewModel>();
             builder.Services.AddSingleton<CompletedRidesViewModel>();
             builder.Services.AddSingleton<CompletedRideStatisticsViewModel>();
@@ -71,7 +71,7 @@ namespace TrackSense
             builder.Services.AddTransient<CompletedRidesPage>();
             builder.Services.AddTransient<PlannedRidesPage>();
             builder.Services.AddTransient<CreateNewPlannedRidePage>();
-            builder.Services.AddTransient<BluetoothWatchDog>();
+            builder.Services.AddTransient<TrackSenseDevicesPage>();
             builder.Services.AddTransient<CompletedRideStatisticsPage>();
             builder.Services.AddTransient<SettingsPage>();
             builder.Services.AddTransient<GalleriePage>();
