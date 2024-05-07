@@ -40,7 +40,8 @@
         <Tab Title="Settings"
              Icon="settings_light.svg"
              Route="SettingsPage">
-            <ShellContent ContentTemplate="{DataTemplate views:SettingsPage}" />
+            <ShellContent Title="Configuration" ContentTemplate="{DataTemplate views:SettingsPage}" />
+            <ShellContent Title="Bluetooth" ContentTemplate="{DataTemplate views:TrackSenseDevicesPage}" />
         </Tab>
 
     </TabBar>
