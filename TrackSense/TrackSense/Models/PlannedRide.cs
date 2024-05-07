@@ -12,6 +12,13 @@ namespace TrackSense.Models
         public string PlannedRideName { get; set; }
         public List<PlannedRidePoint> PlannedRidePoints { get; set; }
 
+        public PlannedRide()
+        {
+            PlannedRideId = new Guid();
+            PlannedRideName = "";
+            PlannedRidePoints = new List<PlannedRidePoint>();
+        }
+
         public PlannedRide(Entities.PlannedRide entite)
         {
             if (entite is null)

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TrackSense.Services
 {
-    class LocationService
+    public class LocationService
     {
         public LocationService()
         {
