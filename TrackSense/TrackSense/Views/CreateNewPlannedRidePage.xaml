@@ -8,40 +8,69 @@
              x:DataType="viewmodel:CreateNewPlannedRideViewModel">
 
     <Grid RowDefinitions="*, Auto, Auto"
-          ColumnDefinitions=".50*, .50*"
           Padding="10"
           RowSpacing="10"
           ColumnSpacing="10">
 
         <Grid x:Name="mapContainer"
-              Grid.ColumnSpan="2"
               Grid.Row="0"
               Padding="2,2,2,2"
               BackgroundColor="#004F5C">
 
         </Grid>
 
-        <Button Text="Nouveau point"
-                Grid.Row="1"
-                Grid.Column="0"
-                FontAttributes="Bold" />
+        <Grid RowDefinitions="Auto, Auto"
+              Grid.Row="1"
+              Padding="2,2,2,2"
+              BackgroundColor="#FFEACD">
 
-        <Button Text="Placer le point"
-                Grid.Row="1"
-                Grid.Column="1"
-                FontAttributes="Bold" />
+            <Label Text="Nom du trajet planifié :"
+                   Grid.Row="0"
+                   FontAttributes="Bold"
+                   Margin="8"/>
 
-        <Button Text="Créer le trajet"
-                Grid.Row="2"
-                Grid.Column="0"
-                BackgroundColor="Green"
-                FontAttributes="Bold" />
+            <Entry Placeholder="Entrez le titre ici"
+                   Grid.Row="1"
+                   Margin="8"/>
+            
+        </Grid>
 
-        <Button Text="Annuler"
-                Grid.Row="2"
-                Grid.Column="1"
-                BackgroundColor="DarkRed"
-                FontAttributes="Bold" />
+        
+        <Grid RowDefinitions="Auto, Auto"
+              ColumnDefinitions=".50*, .50*"
+              Grid.Row="2"
+              Padding="2,2,2,2">
+
+            <Button Text="Nouveau point"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    FontAttributes="Bold"
+                    Margin="5"
+                    Clicked="NouveauPointButton_Clicked"/>
+
+            <Button Text="Placer le point"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    FontAttributes="Bold"
+                    Margin="5" />
+
+            <Button Text="Créer le trajet"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    BackgroundColor="Green"
+                    FontAttributes="Bold"
+                    Margin="5" />
+
+            <Button Text="Annuler"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    BackgroundColor="DarkRed"
+                    FontAttributes="Bold"
+                    Margin="5"
+                    CommandParameter="{Binding .}"
+                    Command="{Binding GoToMainMenuCommand}" />
+
+        </Grid>
 
 
     </Grid>

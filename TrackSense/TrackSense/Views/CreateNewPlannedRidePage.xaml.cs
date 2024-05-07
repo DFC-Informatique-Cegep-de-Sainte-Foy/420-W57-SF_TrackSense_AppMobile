@@ -13,6 +13,9 @@ using Color = Mapsui.Styles.Color;
 using Mapsui.Nts.Extensions;
 using Sensor = Microsoft.Maui.Devices.Sensors;
 using Position = Mapsui.UI.Maui.Position;
+using TrackSense.Services;
+using Mapsui.Providers;
+using Microsoft.Maui.ApplicationModel;
 
 namespace TrackSense.Views;
 
@@ -23,7 +26,13 @@ public partial class CreateNewPlannedRidePage : ContentPage
     IList<Position> Positions { get; }
 
     IGeolocation _geolocation;
-    public Sensor.Location location;
+    public Sensor.Location lastLocation;
+    public LocationService locationService;
+
+
+    private MapView mapControl;
+    private MemoryLayer markerLayer;
+    private Microsoft.Maui.Graphics.Point markerPosition;
 
     //public Mapsui.UI.Maui.MapControl mapControl;
     //MapControl mapControl = new MapControl();
@@ -33,9 +42,8 @@ public partial class CreateNewPlannedRidePage : ContentPage
         InitializeComponent();
         BindingContext = viewModel;
 
-        // SQDC Ste-foy 46.7808056, -71.299583
-        plannedRidePoints = new();
-        location = new Sensor.Location(46.7808056, -71.299583);
+        //locationService = new LocationService();
+        //location = locationService.GetLocationAsync().Result;
         /*
         double screenWidth = DeviceDisplay.MainDisplayInfo.Width / DeviceDisplay.MainDisplayInfo.Density;
         animation = new Animation(v => receptionImg.TranslationX = v,
@@ -50,6 +58,10 @@ public partial class CreateNewPlannedRidePage : ContentPage
     {
         MapControl mapControl = new Mapsui.UI.Maui.MapControl();
         mapControl.Map?.Layers.Add(Mapsui.Tiling.OpenStreetMap.CreateTileLayer());
+
+        var map = new Mapsui.Map();
+        markerLayer = new MemoryLayer();
+        map.Layers.Add(markerLayer);
 
         if (points.Count > 1)
         {
@@ -75,14 +87,7 @@ public partial class CreateNewPlannedRidePage : ContentPage
         }
         else
         {
-            double longi = 46.7808056;
-            double latit = -71.299583;
-            //location = new Sensor.Location(0.000000, 0.000000);
-            MPoint point = new MPoint(longi, latit);
-
-            mapControl.Map.Home = n => n.CenterOnAndZoomTo(SphericalMercator.FromLonLat(point.X, point.Y).ToMPoint(), 2);
-            ILayer iconLayer = CreateSingleIconLayer(location);
-            mapControl.Map.Layers.Add(iconLayer);
+            throw new ArgumentNullException(nameof(points));
         }
         mapControl.Map.Navigator.RotationLock = true;
         mapContainer.Children.Add(mapControl);
@@ -99,6 +104,30 @@ public partial class CreateNewPlannedRidePage : ContentPage
         List<IFeature> features = new List<IFeature>()
         {
             startFeature,
+        };
+
+        return new MemoryLayer
+        {
+            Name = "Icons layer",
+            Features = features,
+            Style = null,
+            IsMapInfoLayer = true
+        };
+    }
+
+    private ILayer CreateSingleStaticIconLayer()
+    {
+        //IFeature startFeature = new PointFeature(SphericalMercator.FromLonLat(location.Longitude, location.Latitude).ToMPoint());
+
+        int bitMapIdStart = typeof(App).LoadBitmapId("Resources.Images.interest_dark.png");
+        var bitmapHeight = 176;
+        SymbolStyle symboleStyleStart = new SymbolStyle { BitmapId = bitMapIdStart, SymbolScale = 0.20, SymbolOffset = new Offset(0, bitmapHeight * 0.5) };
+
+        //startFeature.Styles.Add(symboleStyleStart);
+
+        List<IFeature> features = new List<IFeature>()
+        {
+            //startFeature,
         };
 
         return new MemoryLayer
@@ -161,12 +190,21 @@ public partial class CreateNewPlannedRidePage : ContentPage
         };
     }
 
-    protected override void OnAppearing()
+    protected override async void OnAppearing()
     {
         base.OnAppearing();
+
+        // SQDC Ste-foy 46.7808056, -71.299583
+        //location = new Sensor.Location(46.7808056, -71.299583);
+
+        plannedRidePoints = new();
+        locationService = new LocationService();
+        lastLocation = await locationService.GetLocationAsync();
+
         plannedRidePoints.Clear();
-        plannedRidePoints.Add(new Models.PlannedRidePoint(1, location, null, null));
+        plannedRidePoints.Add(new Models.PlannedRidePoint(1, lastLocation, null, null));
         DisplayMap(plannedRidePoints);
+
         /*
         if (BindingContext is CreateNewPlannedRideViewModel viewModel)
         {
@@ -180,7 +218,60 @@ public partial class CreateNewPlannedRidePage : ContentPage
         }*/
     }
 
+    private async void CreerLeTrajetButton_Clicked(object sender, EventArgs e)
+    {
+        //await this.BindingContext.CreateNewPlannedRideCommande
+    }
 
+    private void PlacerLePointButton_Clicked(object sender, EventArgs e)
+    {
+
+    }
+
+    private void NouveauPointButton_Clicked(object sender, EventArgs e)
+    {
+        if ((sender as Button).Text == "Nouveau point")
+        {
+            (sender as Button).Text = "I was just clicked!";
+        }
+        else if ((sender as Button).Text == "I was just clicked!")
+        {
+            (sender as Button).Text = "Nouveau point";
+        }
+
+
+    }
+    private async void AnnulerButton_Clicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(MainPage));
+    }
+    /*
+    private ILayer AddMarker(Microsoft.Maui.Graphics.Point position)
+    {
+        int bitmapId = typeof(App).LoadBitmapId("Resources.Images.cross_hair.svg");
+        IFeature point = new PointFeature(position.X, position.Y);
+
+        SymbolStyle symboleStyle = new SymbolStyle { 
+            SymbolType = SymbolType.Image,
+            BitmapId = bitmapId,
+            SymbolScale = 0.20 
+        };
+
+        point.Styles.Add(symboleStyle);
+
+        List<IFeature> features = new List<IFeature>()
+        {
+            point,
+        };
+
+        return new MemoryLayer
+        {
+            Name = "Crosshair layer",
+            Features = features,
+            Style = null,
+            IsMapInfoLayer = true
+        };
+    }*/
     /*
     private void viewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {

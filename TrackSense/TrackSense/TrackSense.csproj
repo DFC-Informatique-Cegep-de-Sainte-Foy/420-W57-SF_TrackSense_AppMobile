@@ -88,6 +88,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\cross_hair.svg" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <EmbeddedResource Include="Resources\Images\end_icon.svg" />
 	  <EmbeddedResource Include="Resources\Images\nodatayeti.png" />
 	  <EmbeddedResource Include="Resources\Images\start_icon.svg" />

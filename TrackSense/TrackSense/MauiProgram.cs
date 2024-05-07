@@ -42,6 +42,7 @@ namespace TrackSense
             builder.Services.AddSingleton<BluetoothService>();
             builder.Services.AddSingleton<RideService>();
             builder.Services.AddSingleton<UserService>();
+            builder.Services.AddSingleton<LocationService>();
             builder.Services.AddSingleton<GallerieService>();
 
 
