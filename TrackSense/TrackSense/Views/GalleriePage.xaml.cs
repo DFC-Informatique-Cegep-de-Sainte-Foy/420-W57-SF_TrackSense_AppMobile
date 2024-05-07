@@ -1,7 +1,3 @@
-using System.Net;
-using ExifLibrary;
-using Minio;
-using Minio.DataModel.Args;
 using TrackSense.ViewModels;
 
 namespace TrackSense.Views;

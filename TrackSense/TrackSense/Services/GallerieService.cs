@@ -25,6 +25,7 @@ public class GallerieService
 
     public async Task PrendrePhoto()
     {
+        _userSettings = _configuration.LoadSettings();
         if (MediaPicker.Default.IsCaptureSupported)
         {
             FileResult photo = await MediaPicker.Default.CapturePhotoAsync();
@@ -117,9 +118,7 @@ public class GallerieService
 
         if (!await ValiderImage(filePath))
         {
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12
-                                               | SecurityProtocolType.Tls11
-                                               | SecurityProtocolType.Tls12;
+
             var endpoint = _userSettings.Endpoint;
             var accessKey = _userSettings.AccessKey;
             var secretKey = _userSettings.SecretKey;
@@ -129,7 +128,7 @@ public class GallerieService
                 using var minio = new MinioClient()
                     .WithEndpoint(endpoint)
                     .WithCredentials(accessKey, secretKey)
-                    //.WithSSL()
+                    .WithSSL()
                     .Build();
                 await UploadToMinio(minio, filePath, fileName).ConfigureAwait(true);
             }
@@ -207,8 +206,7 @@ public class GallerieService
     {
         try
         {
-            PrepareGetGalleryFromBucket();
-
+            await PrepareGetGalleryFromBucket();
         }
         catch(Exception e)
         {
@@ -225,11 +223,14 @@ public class GallerieService
         try
         {
             using var minio = new MinioClient()
-                .WithEndpoint(endpoint)
-                .WithCredentials(accessKey, secretKey)
-                //.WithSSL()
-                .Build();
-            await GetGalleryFromMinio(minio).ConfigureAwait(true);
+                    .WithEndpoint(endpoint)
+                    .WithCredentials(accessKey, secretKey)
+                    .WithSSL()
+                    .Build();
+#if DEBUG
+            minio.SetTraceOn();
+#endif
+            await GetGalleryFromMinio(minio).ConfigureAwait(false);
         }
         catch (MinioException minioEx)
         {
@@ -244,7 +245,7 @@ public class GallerieService
     private async Task GetGalleryFromMinio(IMinioClient minio)
     {
         var bucketName = _userSettings.Username;
-
+ 
         try
         {
             var bktExistArgs = new BucketExistsArgs()
@@ -255,17 +256,25 @@ public class GallerieService
             {
                 await Shell.Current.DisplayAlert("Erreur", "Le bucket n'existe pas", "OK");
                 return;
-            }
+            }          
 
             ListObjectsArgs args = new ListObjectsArgs()
                 .WithBucket(bucketName)
                 //.WithPrefix("prefix")
-                .WithRecursive(true);
+                .WithRecursive(true)
+                .WithVersions(true);
             IObservable<Item> observable = minio.ListObjectsAsync(args);
             IDisposable subscription = observable.Subscribe(
                     item => Console.WriteLine("OnNext: {0}", item.Key),
                     ex => Console.WriteLine("OnError: {0}", ex.Message),
                     () => Console.WriteLine("OnComplete: {0}"));
+#if DEBUG
+            var list = await minio.ListBucketsAsync().ConfigureAwait(false);
+            foreach (var bucket in list.Buckets)
+            {
+                Console.WriteLine(bucket.Name + " " + bucket.CreationDateDateTime);
+            }
+#endif
         }
         catch (MinioException minioEx)
         {

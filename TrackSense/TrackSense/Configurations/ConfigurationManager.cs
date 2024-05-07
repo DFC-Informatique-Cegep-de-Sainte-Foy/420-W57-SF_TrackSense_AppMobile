@@ -22,10 +22,10 @@ namespace TrackSense.Configurations
                     {
                         ApiUrl = "https://tracksense-api.rapidotron.com/api",
                         Username = "admin",
-                        Endpoint = "10.201.46.221:9000",
-                        AccessKey = "n2qsvPKdSi5HPz9kfdRE",
-                        SecretKey = "kic5lA5pxjqyNvP5Jp4oIWHboYvneuinciZ5Tp90"
-                };
+                        Endpoint = "minio.rapidotron.com",
+                        AccessKey = "ZUzuRtiSnBktqzWNtSCw",
+                        SecretKey = "CD6BbgnuqPPXhXZQdYbh1X3NCxRdtyuOa0aUSPRL"
+                    };
                     SaveSettings(defaultSettings);
                 }
             }
