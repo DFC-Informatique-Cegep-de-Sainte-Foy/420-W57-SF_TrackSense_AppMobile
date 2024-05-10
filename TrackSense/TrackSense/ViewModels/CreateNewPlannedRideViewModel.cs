@@ -22,7 +22,7 @@ namespace TrackSense.ViewModels
 
         public CreateNewPlannedRideViewModel(IConnectivity connectivity, RideService rideService)
         {
-            Title = "Nouveau trajet planifié";
+            Title = "Créer Nouveau Trajet";
             _connectivity = connectivity;
             _rideService = rideService;
             newPlannedRide = new PlannedRide();

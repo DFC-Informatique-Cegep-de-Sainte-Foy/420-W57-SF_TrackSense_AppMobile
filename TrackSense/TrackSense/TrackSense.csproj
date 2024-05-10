@@ -109,6 +109,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Views\PlannedRideStatisticsPage.xaml.cs">
+	    <DependentUpon>PlannedRideStatisticsPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\CompletedRideStatisticsPage.xaml.cs">
 	    <DependentUpon>CompletedRideStatisticsPage.xaml</DependentUpon>
 	  </Compile>
@@ -130,6 +133,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Views\PlannedRideStatisticsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\CompletedRideStatisticsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

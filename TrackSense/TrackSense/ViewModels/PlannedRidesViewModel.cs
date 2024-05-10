@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using TrackSense.Entities;
 using TrackSense.Models;
 using TrackSense.Services;
 using TrackSense.Services.Bluetooth;
@@ -14,7 +15,7 @@ public partial class PlannedRidesViewModel : BaseViewModel
     BluetoothService _bluetoothService;
     RideService _rideService;
     IConnectivity _connectivity;
-    public ObservableCollection<PlannedRideSummary> PlannedRideSummaries { get; } = new();
+    public ObservableCollection<Models.PlannedRideSummary> PlannedRideSummaries { get; } = new();
 
     [ObservableProperty]
     bool isConnected;
@@ -122,7 +123,7 @@ public partial class PlannedRidesViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    async Task GoToDetailsAsync(PlannedRideSummary rideSummary)
+    async Task GoToDetailsAsync(Models.PlannedRideSummary rideSummary)
     {
         if (rideSummary is null)
         {
@@ -141,11 +142,17 @@ public partial class PlannedRidesViewModel : BaseViewModel
                 //Référence le shell, donc pas bonne pratique, il faudrait une interface.
 
                 // ICI EST LA REDIRECTION A LA PAGE STATISTIQUES QUAND ON CLICK SUR LE SUMMARY (A AJOUTER DANS NEXT USERSTORY)
-                /*await Shell.Current.GoToAsync($"{nameof(PlannedRideStatisticsPage)}", true,
+
+                // CHEATMODE ACTIVATED!
+                plannedRide.PlannedRideName = rideSummary.PlannedRideName;
+                plannedRide.Distance = rideSummary.Distance;
+
+
+                await Shell.Current.GoToAsync($"{nameof(PlannedRideStatisticsPage)}", true,
                     new Dictionary<string, object>
                     {
                             {"PlannedRide", new Models.PlannedRide(plannedRide) }
-                    });*/
+                    });
             }
         }
         catch (Exception e)
@@ -183,7 +190,7 @@ public partial class PlannedRidesViewModel : BaseViewModel
                 
                 foreach (TrackSense.Entities.PlannedRideSummary ride in plannedRides)
                 {
-                    PlannedRideSummaries.Add(new PlannedRideSummary(ride)); // si on a trop de données, ne pas utiliser cette méthode car lève un évenement pour chaque ajout
+                    PlannedRideSummaries.Add(new Models.PlannedRideSummary(ride)); // si on a trop de données, ne pas utiliser cette méthode car lève un évenement pour chaque ajout
                     // si on a trop de données, créer une nouvelle liste ou une nouvelle ObservableCollection et l'assigner à CompletedRides ou trouver des
                     //library helpers qui ont des observableRange collections qui feront de l'ajout de batch
                 }
