@@ -29,7 +29,7 @@
         </VerticalStackLayout>
 
         <Image Grid.ColumnSpan="2"
-               Source="mtb_logo.png"
+               Source="mtb_logo.svg"
                BackgroundColor="DeepSkyBlue"
                MaximumHeightRequest="130"
                Aspect="Fill"/>
