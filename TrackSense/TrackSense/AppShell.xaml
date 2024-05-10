@@ -11,7 +11,7 @@
 
     <TabBar>
         
-        <Tab Title="Home"
+        <Tab Title="Accueil"
              Icon="home_light.png"
              Route="MainPage">
             <ShellContent ContentTemplate="{DataTemplate views:MainPage}" />
@@ -42,7 +42,7 @@
             <ShellContent ContentTemplate="{DataTemplate views:GalleriePage}" />
         </Tab>
 
-        <Tab Title="Settings"
+        <Tab Title="Paramètres"
              Icon="settings_light.svg"
              Route="SettingsPage">
             <ShellContent Title="Configuration" ContentTemplate="{DataTemplate views:SettingsPage}" />
