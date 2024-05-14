@@ -12,20 +12,22 @@ namespace TrackSense.Services;
 public class GallerieService
 {
 
-    UserService _userService;
     IConfigurationManager _configuration;
     Settings _userSettings;
 
-    public GallerieService(UserService userService, IConfigurationManager configurationManager)
+    public GallerieService(IConfigurationManager configurationManager)
     {
         _configuration = configurationManager;
-        //_userService = userService;
         _userSettings = _configuration.LoadSettings();
+
+        _configuration.ConfigurationChanged += (s, e) =>
+        {
+            _userSettings = _configuration.LoadSettings();
+        };
     }
 
     public async Task PrendrePhoto()
     {
-        _userSettings = _configuration.LoadSettings();
         if (MediaPicker.Default.IsCaptureSupported)
         {
             FileResult photo = await MediaPicker.Default.CapturePhotoAsync();
@@ -219,6 +221,13 @@ public class GallerieService
         var endpoint = _userSettings.Endpoint;
         var accessKey = _userSettings.AccessKey;
         var secretKey = _userSettings.SecretKey;
+#if DEBUG
+        Console.WriteLine(_userSettings.Username);
+        Console.WriteLine(_userSettings.ApiUrl);
+        Console.WriteLine($"Endpoint: {endpoint}");
+        Console.WriteLine($"AccessKey: {accessKey}");
+        Console.WriteLine($"SecretKey: {secretKey}");
+ #endif
 
         try
         {

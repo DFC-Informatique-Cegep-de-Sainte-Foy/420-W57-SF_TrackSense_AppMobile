@@ -12,18 +12,26 @@ namespace TrackSense.ViewModels
 {
     public partial class GallerieViewModel : BaseViewModel
     {
-        UserService _userService;
         IConfigurationManager _configuration;
-        Settings _userSettings;
         GallerieService _gallerieService;
 
-        public GallerieViewModel(UserService userService, IConfigurationManager configurationManager, GallerieService gallerieService)
+        public GallerieViewModel(IConfigurationManager configurationManager, GallerieService gallerieService)
         {
-            Title = "Gallerie";
-            _userService = userService;
+            
             _configuration = configurationManager;
             _gallerieService = gallerieService;
-            _userSettings = _configuration.LoadSettings();
+            var user = _configuration.LoadSettings();
+            var nom = user.Username;
+            Title = "Gallerie de " + nom;
+
+            _configuration.ConfigurationChanged += ConfigurationChanged;
+        }
+
+        private void ConfigurationChanged(object sender, EventArgs e)
+        {
+            var user = _configuration.LoadSettings();
+            var nom = user.Username;
+            Title = "Gallerie de " + nom;
         }
 
         [RelayCommand]
