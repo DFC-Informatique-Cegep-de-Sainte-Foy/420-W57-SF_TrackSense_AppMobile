@@ -14,7 +14,7 @@ public partial class CompletedRidesViewModel : BaseViewModel
     BluetoothService _bluetoothService;
     RideService _rideService;
     IConnectivity _connectivity;
-    public ObservableCollection<CompletedRideSummary> CompletedRideSummaries { get; } = new();
+    public ObservableCollection<Models.CompletedRideSummary> CompletedRideSummaries { get; } = new();
 
     [ObservableProperty]
     bool isConnected;

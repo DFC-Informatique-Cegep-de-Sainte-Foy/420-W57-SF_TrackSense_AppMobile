@@ -14,6 +14,7 @@ namespace TrackSense.Services.API.APIDTO
         public string UserLogin { get; set; }
         public string? PlannedRideId { get; set; }
         public string? PlannedRideName { get; set; }
+        public double? Distance { get; set; }
         public List<PlannedRidePointDTO> PlannedRidePoints { get; set; }
 
         public PlannedRideDTO()
@@ -57,6 +58,7 @@ namespace TrackSense.Services.API.APIDTO
             {
                 PlannedRideId = new Guid(this.PlannedRideId!),
                 PlannedRideName = this.PlannedRideName,
+                Distance = this.Distance,
                 PlannedRidePoints = this.PlannedRidePoints.Select(p => p.ToEntity()).ToList(),
                 UserLogin = this.UserLogin,
             };

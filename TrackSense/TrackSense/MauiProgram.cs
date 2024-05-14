@@ -64,6 +64,7 @@ namespace TrackSense
             builder.Services.AddSingleton<CompletedRidesViewModel>();
             builder.Services.AddSingleton<CompletedRideStatisticsViewModel>();
             builder.Services.AddSingleton<PlannedRidesViewModel>();
+            builder.Services.AddSingleton<PlannedRideStatisticsViewModel>();
             builder.Services.AddSingleton<CreateNewPlannedRideViewModel>();
             builder.Services.AddSingleton<SettingsViewModel>();
             builder.Services.AddSingleton<GallerieViewModel>();
@@ -74,6 +75,7 @@ namespace TrackSense
             builder.Services.AddTransient<CreateNewPlannedRidePage>();
             builder.Services.AddTransient<TrackSenseDevicesPage>();
             builder.Services.AddTransient<CompletedRideStatisticsPage>();
+            builder.Services.AddTransient<PlannedRideStatisticsPage>();
             builder.Services.AddTransient<SettingsPage>();
             builder.Services.AddTransient<GalleriePage>();
             return builder.Build();
