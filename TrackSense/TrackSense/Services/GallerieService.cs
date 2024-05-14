@@ -245,6 +245,7 @@ public class GallerieService
     private async Task GetGalleryFromMinio(IMinioClient minio)
     {
         var bucketName = _userSettings.Username;
+        var location = "";
  
         try
         {
@@ -254,11 +255,16 @@ public class GallerieService
 
             if (!found)
             {
-                await Shell.Current.DisplayAlert("Erreur", "Le bucket n'existe pas", "OK");
-                return;
-            }          
+                var mkBktArgs = new MakeBucketArgs()
+                    .WithBucket(bucketName)
+                    .WithLocation(location);
+                await minio.MakeBucketAsync(mkBktArgs).ConfigureAwait(true);
+#if DEBUG
+                await Shell.Current.DisplayAlert("Bucket créé: ", bucketName, "OK");
+#endif
+            }
 
-            ListObjectsArgs args = new ListObjectsArgs()
+                ListObjectsArgs args = new ListObjectsArgs()
                 .WithBucket(bucketName)
                 //.WithPrefix("prefix")
                 .WithRecursive(true)
