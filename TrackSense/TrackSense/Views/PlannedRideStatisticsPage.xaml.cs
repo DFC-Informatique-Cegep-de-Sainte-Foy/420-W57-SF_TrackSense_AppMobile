@@ -142,11 +142,12 @@ public partial class PlannedRideStatisticsPage : ContentPage
 
     private void SendButton_Clicked(object sender, EventArgs e)
     {
+        //TODO: 
         if ((sender as Button).Text == "Send and Load")
         {
-            (sender as Button).Text = "Envoyé!";
+            (sender as Button).Text = "Envoyï¿½!";
         }
-        else if ((sender as Button).Text == "Envoyé!")
+        else if ((sender as Button).Text == "Envoyï¿½!")
         {
             (sender as Button).Text = "Send and Load";
         }
