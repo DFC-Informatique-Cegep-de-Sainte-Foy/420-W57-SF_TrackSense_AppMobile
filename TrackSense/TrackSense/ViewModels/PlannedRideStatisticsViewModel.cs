@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using TrackSense.Models;
 
 namespace TrackSense.ViewModels
@@ -13,5 +14,17 @@ namespace TrackSense.ViewModels
         {
             Title = "Détail Trajet Planifié";
         }
+
+        [RelayCommand]
+        async Task Envoyer()
+        {
+            Trajet trajet = Trajet.FromPlannedRide2Trajet(this.PlannedRide);
+            string nom = trajet.Nom;
+            string json = trajet.FromTrajet2Json();
+            await Shell.Current.DisplayAlert(nom, json, "OK"); //
+            //TODO: envoyer JSON par BLE
+           
+        }
+
     }
 }

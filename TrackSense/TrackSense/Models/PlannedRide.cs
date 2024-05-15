@@ -44,5 +44,20 @@ namespace TrackSense.Models
                 PlannedRidePoints = this.PlannedRidePoints.Select(p => p.ToEntity()).ToList(),
             };
         }
+
+        public List<LocationPoint> FromPlannedRidePoints2LocationPoints()
+        {
+            //TODO
+            List<LocationPoint> locationPoints = new();
+            for (int i = 0; i <this.PlannedRidePoints.Count;i++)
+            {
+                double latitude = this.PlannedRidePoints[i].Location.Latitude;
+                double longitude = this.PlannedRidePoints[i].Location.Longitude;
+                LocationPoint lp = new LocationPoint(latitude, longitude);
+                locationPoints.Add(lp);
+            }
+            return locationPoints;
+        }
+
     }
 }

@@ -132,7 +132,7 @@ namespace TrackSense.ViewModels
 
             if (String.IsNullOrWhiteSpace(sanitizedUsername))
             {
-                await Shell.Current.DisplayAlert("Oups", "Le format de votre nom utilisateur n'est pas valide", "Ok");
+                await Shell.Current.DisplayAlert("Oups", "Le format de votre Nom utilisateur n'est pas valide", "Ok");
                 return;
             }
 
@@ -173,13 +173,13 @@ namespace TrackSense.ViewModels
 
             if (String.IsNullOrWhiteSpace(sanitizedUsername))
             {
-                await Shell.Current.DisplayAlert("Oups", "Le format de votre nom utilisateur n'est pas valide", "Ok");
+                await Shell.Current.DisplayAlert("Oups", "Le format de votre Nom utilisateur n'est pas valide", "Ok");
                 return;
             }
 
             if (!await _userService.IsUserLoginAvailable(sanitizedUsername))
             {
-                await Shell.Current.DisplayAlert("Oups", "Ce nom utilisateur existe déjà", "Ok");
+                await Shell.Current.DisplayAlert("Oups", "Ce Nom utilisateur existe déjà", "Ok");
                 return;
             }
 
@@ -197,7 +197,7 @@ namespace TrackSense.ViewModels
 
             if (!response.IsSuccessStatusCode)
             {
-                await Shell.Current.DisplayAlert("Création de compte", $"Une erreur est survenue lors de la création de votre compte. Le nom d'utilisateur existe déjà ou le format n'est pas valide", "Ok");
+                await Shell.Current.DisplayAlert("Création de compte", $"Une erreur est survenue lors de la création de votre compte. Le Nom d'utilisateur existe déjà ou le format n'est pas valide", "Ok");
                 return;
             }
 

@@ -12,7 +12,7 @@ namespace TrackSense.Models
         public double Longitude { get; set; }
 
         public LocationPoint(double p_latitude,double p_longitude)
-        {
+        { 
             this.Latitude = p_latitude;
             this.Longitude = p_longitude;
         }

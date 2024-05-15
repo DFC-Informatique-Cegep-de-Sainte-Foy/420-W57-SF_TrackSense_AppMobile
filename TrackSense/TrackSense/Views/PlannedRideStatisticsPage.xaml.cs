@@ -142,7 +142,6 @@ public partial class PlannedRideStatisticsPage : ContentPage
 
     private void SendButton_Clicked(object sender, EventArgs e)
     {
-        //TODO: 
         if ((sender as Button).Text == "Send and Load")
         {
             (sender as Button).Text = "Envoy�!";

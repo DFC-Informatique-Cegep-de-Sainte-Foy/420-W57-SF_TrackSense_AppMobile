@@ -136,7 +136,7 @@ namespace TrackSense.Services.Bluetooth
                 {
                     try
                     {
-                        // read stats and points
+                        // read stats and Points
                         byte[] status = args.Characteristic.Value;
                         string statusString = Encoding.UTF8.GetString(status);
                         if (statusString == "sending" && !isBusy)

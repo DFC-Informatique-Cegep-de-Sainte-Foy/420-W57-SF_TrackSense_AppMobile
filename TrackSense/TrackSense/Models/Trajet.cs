@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Newtonsoft.Json;
 namespace TrackSense.Models
 {
     /// <summary>
@@ -11,54 +11,64 @@ namespace TrackSense.Models
     /// </summary>
     public class Trajet
     {
-        public string ride_id { get; set; }
+        public string Ride_id { get; set; }
 
-        public string nom { get; set; }
+        public string Nom { get; set; }
 
-        public double distance { get; set; }
+        public double? Distance { get; set; }
 
-        public double vitesse_moyenne { get; set; }
+        public double? Vitesse_moyenne { get; set; }
 
-        public string dateBegin { get; set; }
+        public string DateBegin { get; set; }
 
-        public string dateEnd { get; set; }
-        public long duration { get; set; }
+        public string DateEnd { get; set; }
+        public long Duration { get; set; }
 
-        public bool estComplete;
-        public bool estReadyToSave;
+        public bool EstComplete { get; set; }
+        public bool EstReadyToSave { get; set; }
 
+        public List<LocationPoint> Points { get; set; }
+        public List<LocationPoint> PointsdInteret { get; set; }
+        public List<LocationPoint> PointsdDanger { get; set; }
 
-        List<LocationPoint> points { get; set; }
-        List<LocationPoint> pointsdInteret { get; set; }
-        List<LocationPoint> pointsdDanger { get; set; }
-
-        public Trajet(string p_id, string p_nom, double p_distance, double p_vitesse, string p_begin, string p_end, long p_duration, List<LocationPoint> p_points, List<LocationPoint> p_pointsInteret, List<LocationPoint> p_pointsDanger)
+        public Trajet(string p_id, string p_nom, double? p_distance, double? p_vitesse, string p_begin, string p_end, long p_duration, List<LocationPoint> p_points, List<LocationPoint> p_pointsInteret, List<LocationPoint> p_pointsDanger)
         {
-            ride_id = p_id;
-            nom = p_nom;
-            distance = p_distance;
-            vitesse_moyenne = p_vitesse;
-            dateBegin = p_begin;
-            dateEnd = p_end;
-            duration = p_duration;
-            points = p_points;
-            pointsdInteret = p_pointsInteret;
-            pointsdDanger = p_pointsDanger;
-            estComplete = false;
-            estReadyToSave = false;
+            Ride_id = p_id;
+            Nom = p_nom;
+            Distance = p_distance;
+            Vitesse_moyenne = p_vitesse;
+            DateBegin = p_begin;
+            DateEnd = p_end;
+            Duration = p_duration;
+            Points = p_points;
+            PointsdInteret = p_pointsInteret;
+            PointsdDanger = p_pointsDanger;
+            EstComplete = false;
+            EstReadyToSave = false;
         }
 
-
-        public static Trajet fromPlannedRide2Trajet()
+        public static Trajet FromPlannedRide2Trajet(PlannedRide p_plannedRide)
         {
             //TODO
-            return null;
+            string id = p_plannedRide.PlannedRideId.ToString();
+            string nom = p_plannedRide.PlannedRideName;
+            double? distance = p_plannedRide.Distance;
+            double? vitesse = 0.0;
+            string begin = "";
+            string end = "";
+            long duration = (long)0.0;
+            List<LocationPoint> points = p_plannedRide.FromPlannedRidePoints2LocationPoints();
+            List<LocationPoint> pointsInteret = new List<LocationPoint>();
+            List<LocationPoint> pointsDanger = new List<LocationPoint>();
+            Trajet trajet = new Trajet(id,nom,distance,vitesse,begin,end,duration,points,pointsInteret,pointsDanger);
+            return trajet;
         }
 
-        public string fromTrajet2Json()
+        public string FromTrajet2Json()
         {
             //TODO
-            return "";
+            string JSON = JsonConvert.SerializeObject(this);
+            return JSON;
         }
 
 
