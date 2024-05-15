@@ -11,40 +11,40 @@ namespace TrackSense.Models
     /// </summary>
     public class Trajet
     {
-        public string Ride_id { get; set; }
+        public string ride_id { get; set; }
 
-        public string Nom { get; set; }
+        public string nom { get; set; }
 
-        public double? Distance { get; set; }
+        public double? distance { get; set; }
 
-        public double? Vitesse_moyenne { get; set; }
+        public double? vitesse_moyenne { get; set; }
 
-        public string DateBegin { get; set; }
+        public string dateBegin { get; set; }
 
-        public string DateEnd { get; set; }
-        public long Duration { get; set; }
+        public string dateEnd { get; set; }
+        public long duration { get; set; }
 
-        public bool EstComplete { get; set; }
-        public bool EstReadyToSave { get; set; }
+        public bool estComplete { get; set; }
+        public bool estReadyToSave { get; set; }
 
-        public List<LocationPoint> Points { get; set; }
-        public List<LocationPoint> PointsdInteret { get; set; }
-        public List<LocationPoint> PointsdDanger { get; set; }
+        public List<LocationPoint> points { get; set; }
+        public List<LocationPoint> pointsdInteret { get; set; }
+        public List<LocationPoint> pointsdDanger { get; set; }
 
         public Trajet(string p_id, string p_nom, double? p_distance, double? p_vitesse, string p_begin, string p_end, long p_duration, List<LocationPoint> p_points, List<LocationPoint> p_pointsInteret, List<LocationPoint> p_pointsDanger)
         {
-            Ride_id = p_id;
-            Nom = p_nom;
-            Distance = p_distance;
-            Vitesse_moyenne = p_vitesse;
-            DateBegin = p_begin;
-            DateEnd = p_end;
-            Duration = p_duration;
-            Points = p_points;
-            PointsdInteret = p_pointsInteret;
-            PointsdDanger = p_pointsDanger;
-            EstComplete = false;
-            EstReadyToSave = false;
+            this.ride_id = p_id;
+            this.nom = p_nom;
+            this.distance = p_distance;
+            this.vitesse_moyenne = p_vitesse;
+            this.dateBegin = p_begin;
+            this.dateEnd = p_end;
+            this.duration = p_duration;
+            this.points = p_points;
+            this.pointsdInteret = p_pointsInteret;
+            this.pointsdDanger = p_pointsDanger;
+            this.estComplete = false;
+            this.estReadyToSave = false;
         }
 
         public static Trajet FromPlannedRide2Trajet(PlannedRide p_plannedRide)

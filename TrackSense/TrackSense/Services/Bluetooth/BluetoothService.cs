@@ -290,6 +290,36 @@ namespace TrackSense.Services.Bluetooth
             }
         }
 
+        internal async Task<bool> EnvoyerTrajet(string json)
+        {
+            //TODO:
+            IDevice connectedDevice = bluetoothLE.Adapter.ConnectedDevices.SingleOrDefault();
+            Guid trajetServiceUUID = new("68c50cff-e5ad-4cb8-9541-997d42925f17");   //  Il est cohérent avec l'UUID de service enregistré par Bluetooth côté TS.
+            Guid trajetJSONCharacUUID = new("65000b05-c1a9-4dfb-a173-bdaa4a029cf6");// Il est cohérent avec l'UUID de service enregistré par Bluetooth côté TS.
+            IService trajetService = await connectedDevice.GetServiceAsync(trajetServiceUUID);
+            ICharacteristic trajetJSONCharac = await trajetService.GetCharacteristicAsync(trajetJSONCharacUUID);
+            
+            byte[] trajetJsonString = Encoding.UTF8.GetBytes(json);
+            bool result = false;
+
+            try
+            {
+                while (!result)
+                {
+                    result = await trajetJSONCharac.WriteAsync(trajetJsonString);
+                }
+                return result;
+
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Erreur envoi trajet : " + e.Message);
+                return result;
+            }
+        }
+
+
+
         #endregion
     }
 }
