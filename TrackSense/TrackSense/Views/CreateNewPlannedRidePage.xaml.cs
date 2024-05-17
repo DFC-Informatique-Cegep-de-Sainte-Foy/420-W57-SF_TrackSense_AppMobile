@@ -28,6 +28,7 @@ public partial class CreateNewPlannedRidePage : ContentPage
     IGeolocation _geolocation;
     public Sensor.Location lastLocation;
     public LocationService locationService;
+    Pin newPin;
 
 
     private MapView mapControl;
@@ -291,5 +292,10 @@ public partial class CreateNewPlannedRidePage : ContentPage
             }
         }
     }*/
+
+    private void OnMapClicked(object sender, MapClickedEventArgs e)
+    {
+        System.Diagnostics.Debug.WriteLine($"MapClick : {e.Point.Latitude}, {e.Point.Longitude}");
+    }
 
 }

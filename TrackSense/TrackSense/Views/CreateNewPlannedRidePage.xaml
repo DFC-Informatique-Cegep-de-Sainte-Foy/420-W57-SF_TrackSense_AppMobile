@@ -4,6 +4,7 @@
              x:Class="TrackSense.Views.CreateNewPlannedRidePage"
              xmlns:model="clr-namespace:TrackSense.Models"
              xmlns:viewmodel="clr-namespace:TrackSense.ViewModels"
+             xmlns:mapsui="clr-namespace:Mapsui.UI.Maui;assembly=Mapsui.UI.Maui"
              Title="{Binding Title}"
              x:DataType="viewmodel:CreateNewPlannedRideViewModel">
 

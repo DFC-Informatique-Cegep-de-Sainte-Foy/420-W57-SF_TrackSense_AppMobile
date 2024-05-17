@@ -44,5 +44,10 @@ namespace TrackSense.Models
                 PlannedRidePoints = this.PlannedRidePoints.Select(p => p.ToEntity()).ToList(),
             };
         }
+
+        public override string ToString()
+        {
+            return $"\nPlanned Ride : \nID : {PlannedRideId}\nNom : {PlannedRideName}\nDistance : {Distance}\nNombre de points : {PlannedRidePoints.Count}";
+        }
     }
 }

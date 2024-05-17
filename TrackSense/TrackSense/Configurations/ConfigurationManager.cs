@@ -16,12 +16,12 @@ namespace TrackSense.Configurations
         {
             try
             {
-                if (!File.Exists(_configurationFilePath))
+                if (!File.Exists(_configurationFilePath) || true || false)
                 {
                     Settings defaultSettings = new Settings()
                     {
                         ApiUrl = "https://tracksense-api.rapidotron.com/api",
-                        Username = "admin",
+                        Username = "batman",
                         Endpoint = "minio.rapidotron.com",
                         AccessKey = "ZUzuRtiSnBktqzWNtSCw",
                         SecretKey = "CD6BbgnuqPPXhXZQdYbh1X3NCxRdtyuOa0aUSPRL"
