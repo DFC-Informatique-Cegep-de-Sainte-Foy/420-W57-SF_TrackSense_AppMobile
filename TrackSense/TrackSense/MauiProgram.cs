@@ -1,5 +1,6 @@
 ﻿using Microsoft.Maui.Media;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Debug;
 using Plugin.BLE.Abstractions.Contracts;
 using Plugin.BLE;
 using TrackSense.ViewModels;
