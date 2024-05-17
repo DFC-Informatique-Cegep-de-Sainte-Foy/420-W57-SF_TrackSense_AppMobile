@@ -45,20 +45,6 @@ namespace TrackSense
             builder.Services.AddSingleton<LocationService>();
             builder.Services.AddSingleton<GallerieService>();
 
-
-            /* Unmerged change from project 'TrackSense (net7.0-android)'
-            Before:
-                        builder.Services.AddSingleton<TrackSenseDevicesViewModel>();
-            After:
-                        builder.Services.AddSingleton<ViewModels.BluetoothWatchDog>();
-            */
-
-            /* Unmerged change from project 'TrackSense (net7.0-ios)'
-            Before:
-                        builder.Services.AddSingleton<TrackSenseDevicesViewModel>();
-            After:
-                        builder.Services.AddSingleton<ViewModels.BluetoothWatchDog>();
-            */
             builder.Services.AddSingleton<TrackSenseDevicesViewModel>();
             builder.Services.AddSingleton<MainViewModel>();
             builder.Services.AddSingleton<CompletedRidesViewModel>();
