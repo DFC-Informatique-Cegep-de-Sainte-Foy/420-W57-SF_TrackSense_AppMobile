@@ -8,6 +8,7 @@ using Minio.Exceptions;
 using Minio.DataModel;
 using System.Diagnostics;
 using Microsoft.Maui.Storage;
+using TrackSense.Views;
 
 namespace TrackSense.Services;
 
@@ -214,7 +215,7 @@ public class GallerieService
         try
         {
             await PrepareGetGalleryFromBucket();
-            await AfficherImages();
+            await Shell.Current.GoToAsync(nameof(GallerieImagesPage));
         }
         catch(Exception e)
         {
@@ -257,9 +258,7 @@ public class GallerieService
     private async Task GetGalleryFromMinio(IMinioClient minio)
     {
         var bucketName = _userSettings.Username;
-        Debug.WriteLine(bucketName);
-        var appFolderPath = Path.Combine(FileSystem.AppDataDirectory, "images");
-
+        var appFolderPath = Path.Combine(FileSystem.AppDataDirectory, "images", bucketName);
         if (!Directory.Exists(appFolderPath)) //normalement, le dossier devrait exister...
         {
             Directory.CreateDirectory(appFolderPath);
@@ -294,6 +293,7 @@ public class GallerieService
                     {
                         Debug.WriteLine("OnNext: {0}", item.Key);
                         var downloadPath = Path.Combine(appFolderPath, item.Key);
+                        Debug.WriteLine(downloadPath);
                         downloadTasks.Add(DownloadImageFromMinio(minio, bucketName, item.Key, downloadPath));
                     },
                     ex => Debug.WriteLine("OnError: {0}", ex.Message),
@@ -332,9 +332,13 @@ public class GallerieService
         Debug.WriteLine("EndDLIM");
     }
 
+    //La  méthode suivante est utilisée pour tester l'affichage des images téléchargées dans le dossier de l'application
     private async Task AfficherImages()
     {
-        var appFolderPath = Path.Combine(FileSystem.AppDataDirectory, "images");
+        var bucketName = _userSettings.Username;
+        Console.WriteLine(bucketName);
+        var appFolderPath = Path.Combine(FileSystem.AppDataDirectory, "images", bucketName);
+        Console.WriteLine(appFolderPath);
         var files = Directory.GetFiles(appFolderPath);
 
         if (files.Length == 0)
