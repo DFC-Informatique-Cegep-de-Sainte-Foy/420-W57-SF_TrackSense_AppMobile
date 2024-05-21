@@ -237,5 +237,99 @@ namespace TrackSense.ViewModels
                 _configuration.SaveSettings(_userSettings);
             }
         }
+        [RelayCommand]
+        async Task DisplayEndpointAsync()
+        {
+            Shell.Current.CurrentPage.FindByName<Entry>("endpointEntry").Text = _userSettings.Endpoint;
+            Grid endpointOptions = Shell.Current.CurrentPage.FindByName<Grid>("endpointOptions");
+            endpointOptions.IsVisible = !endpointOptions.IsVisible;
+        }
+
+        [RelayCommand]
+        async Task ChangeEndpointAsync()
+        {
+            string modifiedEndpoint = Shell.Current.CurrentPage.FindByName<Entry>("endpointEntry").Text;
+
+            if (String.IsNullOrWhiteSpace(modifiedEndpoint))
+            {
+                return;
+            }
+
+            if (modifiedEndpoint != _userSettings.Endpoint)
+            {
+                _userSettings.Endpoint = modifiedEndpoint;
+
+                _configuration.SaveSettings(_userSettings);
+
+                await Shell.Current.DisplayAlert("Modification de l'endpoint", $"Modification de l'endpoint pour {modifiedEndpoint}", "Ok");
+            }
+
+            await Shell.Current.CurrentPage.FindByName<Entry>("endpointEntry").HideKeyboardAsync(CancellationToken.None);
+
+            Shell.Current.CurrentPage.FindByName<Grid>("endpointOptions").IsVisible = false;
+        }
+        [RelayCommand]
+        async Task DisplayAccessKeyAsync()
+        { 
+            Shell.Current.CurrentPage.FindByName<Entry>("accessKeyEntry").Text = _userSettings.AccessKey;
+            Grid accessKeyOptions = Shell.Current.CurrentPage.FindByName<Grid>("accessKeyOptions");
+            accessKeyOptions.IsVisible = !accessKeyOptions.IsVisible;
+        }
+
+        [RelayCommand]
+        async Task ChangeAccessKeyAsync()
+        {
+            string modifiedAccessKey = Shell.Current.CurrentPage.FindByName<Entry>("accessKeyEntry").Text;
+
+            if (String.IsNullOrWhiteSpace(modifiedAccessKey))
+            {
+                return;
+            }
+
+            if (modifiedAccessKey != _userSettings.AccessKey)
+            {
+                _userSettings.AccessKey = modifiedAccessKey;
+
+                _configuration.SaveSettings(_userSettings);
+
+                await Shell.Current.DisplayAlert("Modification de la clé d'accès", $"Modification de la clé d'accès pour {modifiedAccessKey}", "Ok");
+            }
+
+            await Shell.Current.CurrentPage.FindByName<Entry>("accessKeyEntry").HideKeyboardAsync(CancellationToken.None);
+
+            Shell.Current.CurrentPage.FindByName<Grid>("accessKeyOptions").IsVisible = false;
+        }
+
+        [RelayCommand]
+        async Task DisplaySecretKeyAsync()
+        {
+            Shell.Current.CurrentPage.FindByName<Entry>("secretKeyEntry").Text = _userSettings.SecretKey;
+            Grid secretKeyOptions = Shell.Current.CurrentPage.FindByName<Grid>("secretKeyOptions");
+            secretKeyOptions.IsVisible = !secretKeyOptions.IsVisible;
+        }
+
+        [RelayCommand]
+        async Task ChangeSecretKeyAsync()
+        {
+            string modifiedSecretKey = Shell.Current.CurrentPage.FindByName<Entry>("secretKeyEntry").Text;
+
+            if (String.IsNullOrWhiteSpace(modifiedSecretKey))
+            {
+                return;
+            }
+
+            if (modifiedSecretKey != _userSettings.SecretKey)
+            {
+                _userSettings.SecretKey = modifiedSecretKey;
+
+                _configuration.SaveSettings(_userSettings);
+
+                await Shell.Current.DisplayAlert("Modification de la clé secrète", $"Modification de la clé secrète pour {modifiedSecretKey}", "Ok");
+            }
+
+            await Shell.Current.CurrentPage.FindByName<Entry>("secretKeyEntry").HideKeyboardAsync(CancellationToken.None);
+
+            Shell.Current.CurrentPage.FindByName<Grid>("secretKeyOptions").IsVisible = false;
+        }
     }
 }
