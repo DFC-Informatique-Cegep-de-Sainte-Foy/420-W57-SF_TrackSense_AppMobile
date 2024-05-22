@@ -32,11 +32,13 @@ namespace TrackSense
 #if DEBUG
 		builder.Logging.AddDebug();
 #endif
+            var configurationManager = InitializeConfigurationAsync().Result;            
+
             builder.Services.AddSingleton<IBluetoothLE>(CrossBluetoothLE.Current);
             builder.Services.AddSingleton<IAdapter>(CrossBluetoothLE.Current.Adapter);
             builder.Services.AddSingleton<IConnectivity>(Connectivity.Current);
             builder.Services.AddSingleton<IGeolocation>(Geolocation.Default);
-            builder.Services.AddSingleton<IConfigurationManager, ConfigurationManager>();
+            builder.Services.AddSingleton<IConfigurationManager>(configurationManager);
 
             builder.Services.AddSingleton<ICompletedRideLocalData, RideData>();
 
@@ -69,6 +71,27 @@ namespace TrackSense
             builder.Services.AddTransient<GallerieImagesPage>();
 
             return builder.Build();
+        }
+
+        private static async Task<ConfigurationManager> InitializeConfigurationAsync()
+        {
+            var configurationManager = new ConfigurationManager();
+            var configurationFilePath = Path.Combine(FileSystem.AppDataDirectory, "user-settings.json");
+
+            if (!File.Exists(configurationFilePath))
+            {
+                var defaultSettings = new Settings
+                {
+                    ApiUrl = "https://tracksense-api.rapidotron.com/api",
+                    Username = "admin",
+                    Endpoint = "minio.rapidotron.com",
+                    AccessKey = "ZUzuRtiSnBktqzWNtSCw",
+                    SecretKey = "CD6BbgnuqPPXhXZQdYbh1X3NCxRdtyuOa0aUSPRL"
+                };
+                configurationManager.SaveSettings(defaultSettings);
+            }
+
+            return configurationManager;
         }
     }
 }
