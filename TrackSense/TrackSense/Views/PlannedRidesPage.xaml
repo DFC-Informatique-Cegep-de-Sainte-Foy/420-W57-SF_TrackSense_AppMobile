@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TrackSense.Views.PlannedRidesPage"
+             xmlns:model="clr-namespace:TrackSense.Models"
+             xmlns:viewmodel="clr-namespace:TrackSense.ViewModels"
+             Title="{Binding Title}"
+             x:DataType="viewmodel:PlannedRidesViewModel">
+
+    <Grid RowDefinitions="Auto, *"
+          ColumnDefinitions="Auto, *">
+
+
+        <VerticalStackLayout Grid.Row="0"
+                             BackgroundColor="LightGray"
+                             IsVisible="{Binding IsReceivingData}">
+            <Label Text="Réception en cours. N'éteignez pas votre TrackSense."
+                   HorizontalOptions="Center"
+                   Margin="0,5,0,0"/>
+            <Image Source="reception_icon.svg"
+                   WidthRequest="40"
+                   x:Name="receptionImg"
+                   IsVisible="true"
+                   HorizontalOptions="Start"
+                   VerticalOptions="Center"
+                   Aspect="AspectFit"
+                   Margin="0,2,0,0"/>
+        </VerticalStackLayout>
+
+        <RefreshView Grid.Row="1"
+                     Grid.ColumnSpan="2"
+                     Command="{Binding GetPlannedRidesCommand}"
+                     IsRefreshing="{Binding IsRefreshing}">
+
+            <CollectionView ItemsSource="{Binding PlannedRideSummaries}">
+
+                <CollectionView.EmptyView>
+                    <StackLayout VerticalOptions="Center"
+                             HorizontalOptions="Center"
+                             WidthRequest="200"
+                             HeightRequest="200">
+                        <Image Source="nodata.png"
+                           HorizontalOptions="CenterAndExpand"
+                           VerticalOptions="CenterAndExpand"
+                           Aspect="AspectFill"/>
+
+                    </StackLayout>
+                </CollectionView.EmptyView>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:PlannedRideSummary">
+                        <VerticalStackLayout Padding="5">
+                            <Frame HeightRequest="100">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer CommandParameter="{Binding .}"
+                                                          Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:PlannedRidesViewModel}}, Path=GoToDetailsCommand}"
+                                    />
+                                </Frame.GestureRecognizers>
+
+                                <Grid ColumnDefinitions="*,auto">
+
+                                    <VerticalStackLayout HorizontalOptions="Start">
+
+                                        <Label Text="{Binding PlannedRideName}"
+                                           FontAttributes="Bold"
+                                        />
+
+                                        <Label Text="{Binding Distance, StringFormat='{0:0.00} km'}"
+                                           Margin="0,5,0,0"
+                                        />
+                                    </VerticalStackLayout>
+
+                                    <Label Text="Trajet planifié"
+                                       Grid.Column="1"
+                                    />
+
+                                </Grid>
+                            </Frame>
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+
+    </Grid>
+</ContentPage>

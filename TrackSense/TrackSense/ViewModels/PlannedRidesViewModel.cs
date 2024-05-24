@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using TrackSense.Entities;
 using TrackSense.Models;
 using TrackSense.Services;
 using TrackSense.Services.Bluetooth;
@@ -9,12 +10,12 @@ using TrackSense.Views;
 
 namespace TrackSense.ViewModels;
 
-public partial class MainPageViewModel : BaseViewModel
+public partial class PlannedRidesViewModel : BaseViewModel
 {
     BluetoothService _bluetoothService;
     RideService _rideService;
     IConnectivity _connectivity;
-    public ObservableCollection<CompletedRideSummary> CompletedRideSummaries { get; } = new();
+    public ObservableCollection<Models.PlannedRideSummary> PlannedRideSummaries { get; } = new();
 
     [ObservableProperty]
     bool isConnected;
@@ -25,9 +26,9 @@ public partial class MainPageViewModel : BaseViewModel
     [ObservableProperty]
     bool isRefreshing;
 
-    public MainPageViewModel(BluetoothService btService, RideService rideService, IConnectivity connectivity)
+    public PlannedRidesViewModel(BluetoothService btService, RideService rideService, IConnectivity connectivity)
     {
-        Title = "Accueil";
+        Title = "Tracksense";
         _bluetoothService = btService;
         _rideService = rideService;
         _connectivity = connectivity;
@@ -62,11 +63,11 @@ public partial class MainPageViewModel : BaseViewModel
 
     private async void InitializeDisplay()
     {
-        await this.GetCompletedRidesAsync();
+        await this.GetPlannedRidesAsync();
     }
 
     [RelayCommand]
-    async Task PostCompletedRideAsync(Entities.CompletedRide p_completedRide)
+    async Task PostPlannedRideAsync(Entities.PlannedRide p_plannedRide)
     {
         if (IsBusy)
         {
@@ -75,9 +76,10 @@ public partial class MainPageViewModel : BaseViewModel
 
         try
         {
+            
             IsBusy = true;
 
-            var result = await _rideService.PostCompletedRideAsync(p_completedRide);
+            var result = await _rideService.PostPlannedRideAsync(p_plannedRide);
 
             if (result.IsSuccessStatusCode)
             {
@@ -95,7 +97,7 @@ public partial class MainPageViewModel : BaseViewModel
             Debug.WriteLine(ex.Message);
 
             // Handle and display the exception to the user
-            await Shell.Current.DisplayAlert("Error", $"An error occurred while posting the completed ride: {ex.Message}", "Ok");
+            await Shell.Current.DisplayAlert("Error", $"An error occurred while posting the planned ride: {ex.Message}", "Ok");
         }
         finally
         {
@@ -121,7 +123,7 @@ public partial class MainPageViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    async Task GoToDetailsAsync(CompletedRideSummary rideSummary)
+    async Task GoToDetailsAsync(Models.PlannedRideSummary rideSummary)
     {
         if (rideSummary is null)
         {
@@ -132,28 +134,37 @@ public partial class MainPageViewModel : BaseViewModel
         {
             if (await CheckInternetConnection())
             {
-                Entities.CompletedRide completedRide = await _rideService.GetCompletedRide(rideSummary.CompletedRideId);
+                
+                Entities.PlannedRide plannedRide = await _rideService.GetPlannedRide(rideSummary.PlannedRideId);
                 //Entities.CompletedRide completedRide = GenerateFakeCompletedRide();
                 //Entities.CompletedRide completedRide = _rideService.GetCompletedRideFromLocalStorage(rideSummary.CompletedRideId
 
                 //Référence le shell, donc pas bonne pratique, il faudrait une interface.
-                await Shell.Current.GoToAsync($"{nameof(CompletedRidePage)}", true,
+
+                // ICI EST LA REDIRECTION A LA PAGE STATISTIQUES QUAND ON CLICK SUR LE SUMMARY (A AJOUTER DANS NEXT USERSTORY)
+
+                // CHEATMODE ACTIVATED!
+                plannedRide.PlannedRideName = rideSummary.PlannedRideName;
+                plannedRide.Distance = rideSummary.Distance;
+
+
+                await Shell.Current.GoToAsync($"{nameof(PlannedRideStatisticsPage)}", true,
                     new Dictionary<string, object>
                     {
-                            {"CompletedRide", new Models.CompletedRide(completedRide) }
+                            {"PlannedRide", new Models.PlannedRide(plannedRide) }
                     });
             }
         }
         catch (Exception e)
         {
             Debug.WriteLine(e.Message);
-            await Shell.Current.DisplayAlert("Oups", "Une erreur est survenue lors de la récupération du trajet", "Ok");
+            await Shell.Current.DisplayAlert("Oups", "Une erreur est survenue lors de la récupération du trajet sauvegarder", "Ok");
         }
 
     }
 
     [RelayCommand]
-    public async Task GetCompletedRidesAsync()
+    public async Task GetPlannedRidesAsync()
     {
         if (IsBusy)
         {
@@ -168,18 +179,18 @@ public partial class MainPageViewModel : BaseViewModel
                 IsBusy = true;
                 IsRefreshing = true;
 
-                List<TrackSense.Entities.CompletedRideSummary> completedRides = await _rideService.GetUserCompletedRides();
+                List<TrackSense.Entities.PlannedRideSummary> plannedRides = await _rideService.GetUserPlannedRides();
                 //List<TrackSense.Entities.CompletedRideSummary> completedRides = _rideService.GetCompletedRideSummariesFromLocalStorage();
 
 
-                if (CompletedRideSummaries.Count != 0)
+                if (PlannedRideSummaries.Count != 0)
                 {
-                    CompletedRideSummaries.Clear();
+                    PlannedRideSummaries.Clear();
                 }
-
-                foreach (TrackSense.Entities.CompletedRideSummary ride in completedRides)
+                
+                foreach (TrackSense.Entities.PlannedRideSummary ride in plannedRides)
                 {
-                    CompletedRideSummaries.Add(new CompletedRideSummary(ride)); // si on a trop de données, ne pas utiliser cette méthode car lève un évenement pour chaque ajout
+                    PlannedRideSummaries.Add(new Models.PlannedRideSummary(ride)); // si on a trop de données, ne pas utiliser cette méthode car lève un évenement pour chaque ajout
                     // si on a trop de données, créer une nouvelle liste ou une nouvelle ObservableCollection et l'assigner à CompletedRides ou trouver des
                     //library helpers qui ont des observableRange collections qui feront de l'ajout de batch
                 }
