@@ -10,38 +10,14 @@ namespace TrackSense.Configurations
 {
     public class ConfigurationManager : IConfigurationManager
     {
+        private static readonly Lazy<ConfigurationManager> _instance = new Lazy<ConfigurationManager>(() => new ConfigurationManager());
         private readonly string _configurationFilePath = Path.Combine(FileSystem.AppDataDirectory, "user-settings.json");
         public event EventHandler ConfigurationChanged;
 
-        public ConfigurationManager()
-        {/*
-            try
-            {
-                if (!File.Exists(_configurationFilePath))
-                {
-                    Settings defaultSettings = new Settings()
-                    {
-                        ApiUrl = "https://tracksense-api.rapidotron.com/api",
-                        Username = "admin",
-                        Endpoint = "minio.rapidotron.com",
-                        AccessKey = "ZUzuRtiSnBktqzWNtSCw",
-                        SecretKey = "CD6BbgnuqPPXhXZQdYbh1X3NCxRdtyuOa0aUSPRL"
-                    };
-                    SaveSettings(defaultSettings);
-                }
-            }
-            catch (PathTooLongException)
-            {
-                Debug.WriteLine("The path of the file is too long");
-            }
-            catch (IOException ex)
-            {
-                Debug.WriteLine($"An error occurred while initializing the configuration: {ex.Message}");
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"An unexpected error occurred: {ex.Message}");
-            }*/
+        public static ConfigurationManager Instance => _instance.Value;
+        private ConfigurationManager()
+        {
+            ;
         }
         public Settings LoadSettings()
         {
@@ -53,7 +29,7 @@ namespace TrackSense.Configurations
             }
 #if DEBUG
             Debug.WriteLine($"Loaded settings: {settings.ApiUrl}, {settings.Username}, {settings.ScreenRotation}, {settings.Endpoint}, {settings.AccessKey}, {settings.SecretKey}");
- #endif
+#endif
             return settings;
         }
 

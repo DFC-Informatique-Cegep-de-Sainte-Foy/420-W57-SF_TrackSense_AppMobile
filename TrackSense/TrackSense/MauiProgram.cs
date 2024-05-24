@@ -32,7 +32,7 @@ namespace TrackSense
 #if DEBUG
 		builder.Logging.AddDebug();
 #endif
-            var configurationManager = InitializeConfigurationAsync().Result;            
+            var configurationManager = InitializeConfiguration();            
 
             builder.Services.AddSingleton<IBluetoothLE>(CrossBluetoothLE.Current);
             builder.Services.AddSingleton<IAdapter>(CrossBluetoothLE.Current.Adapter);
@@ -73,9 +73,9 @@ namespace TrackSense
             return builder.Build();
         }
 
-        private static async Task<ConfigurationManager> InitializeConfigurationAsync()
+        private static ConfigurationManager InitializeConfiguration()
         {
-            var configurationManager = new ConfigurationManager();
+            var configurationManager = ConfigurationManager.Instance;
             var configurationFilePath = Path.Combine(FileSystem.AppDataDirectory, "user-settings.json");
 
             if (!File.Exists(configurationFilePath))

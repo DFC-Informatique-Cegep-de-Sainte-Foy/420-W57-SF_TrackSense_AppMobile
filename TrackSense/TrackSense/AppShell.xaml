@@ -30,11 +30,11 @@
             <ShellContent Title="Nouveau" ContentTemplate="{DataTemplate views:CreateNewPlannedRidePage}" />
         </Tab>
 
-        <Tab Title="Point d'intérêt"
+      <!--  <Tab Title="Point d'intérêt"
              Icon="interest_light.png"
              Route="CompletedRidesPage">
             <ShellContent Title="Sauvegardée" ContentTemplate="{DataTemplate views:CompletedRidesPage}" />
-        </Tab>
+        </Tab> -->
 
         <Tab Title="Gallerie"
              Icon="gallery_light.png"
