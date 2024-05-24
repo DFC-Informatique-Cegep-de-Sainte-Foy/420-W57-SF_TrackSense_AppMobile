@@ -10,34 +10,14 @@ namespace TrackSense.Configurations
 {
     public class ConfigurationManager : IConfigurationManager
     {
+        private static readonly Lazy<ConfigurationManager> _instance = new Lazy<ConfigurationManager>(() => new ConfigurationManager());
         private readonly string _configurationFilePath = Path.Combine(FileSystem.AppDataDirectory, "user-settings.json");
+        public event EventHandler ConfigurationChanged;
 
-        public ConfigurationManager()
+        public static ConfigurationManager Instance => _instance.Value;
+        private ConfigurationManager()
         {
-            try
-            {
-                if (!File.Exists(_configurationFilePath))
-                {
-                    Settings defaultSettings = new Settings()
-                    {
-                        ApiUrl = "https://binhnguyen05-001-site1.atempurl.com/api",
-                        Username = "admin"
-                    };
-                    SaveSettings(defaultSettings);
-                }
-            }
-            catch (PathTooLongException)
-            {
-                Debug.WriteLine("The path of the file is too long");
-            }
-            catch (IOException ex)
-            {
-                Debug.WriteLine($"An error occurred while initializing the configuration: {ex.Message}");
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"An unexpected error occurred: {ex.Message}");
-            }
+            ;
         }
         public Settings LoadSettings()
         {
@@ -47,6 +27,9 @@ namespace TrackSense.Configurations
                 string json = System.IO.File.ReadAllText(_configurationFilePath);
                 settings = Newtonsoft.Json.JsonConvert.DeserializeObject<Settings>(json);
             }
+#if DEBUG
+            Debug.WriteLine($"Loaded settings: {settings.ApiUrl}, {settings.Username}, {settings.ScreenRotation}, {settings.Endpoint}, {settings.AccessKey}, {settings.SecretKey}");
+#endif
             return settings;
         }
 
@@ -54,6 +37,13 @@ namespace TrackSense.Configurations
         {
             string json = Newtonsoft.Json.JsonConvert.SerializeObject(settings);
             File.WriteAllText(_configurationFilePath, json);
+            Debug.WriteLine($"Saved settings: {settings.ApiUrl}, {settings.Username}, {settings.ScreenRotation}, {settings.Endpoint}, {settings.AccessKey}, {settings.SecretKey}");
+            OnConfigurationChanged();
+        }
+
+        protected virtual void OnConfigurationChanged()
+        {
+            ConfigurationChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }

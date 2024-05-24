@@ -13,15 +13,15 @@ using Color = Mapsui.Styles.Color;
 
 namespace TrackSense.Views;
 
-public partial class CompletedRidePage : ContentPage
+public partial class PlannedRideStatisticsPage : ContentPage
 {
-	public CompletedRidePage(CompletedRideViewModel viewModel)
+	public PlannedRideStatisticsPage(PlannedRideStatisticsViewModel viewModel)
 	{
 		InitializeComponent();
 		BindingContext = viewModel;
     }
 
-	public void DisplayMap(List<CompletedRidePoint> points)
+	public void DisplayMap(List<PlannedRidePoint> points)
 	{
         MapControl mapControl = new Mapsui.UI.Maui.MapControl();
         mapControl.Map?.Layers.Add(Mapsui.Tiling.OpenStreetMap.CreateTileLayer());
@@ -102,7 +102,7 @@ public partial class CompletedRidePage : ContentPage
         };
     }
 
-    private ILayer CreateLineStringLayer(List<CompletedRidePoint> points, IStyle? style = null)
+    private ILayer CreateLineStringLayer(List<PlannedRidePoint> points, IStyle? style = null)
     {
         LineString lineString = new LineString(points.Select(p => SphericalMercator.FromLonLat(p.Location.Longitude, p.Location.Latitude).ToCoordinate()).ToArray());
 
@@ -130,13 +130,25 @@ public partial class CompletedRidePage : ContentPage
     {
         base.OnAppearing();
 
-        if (BindingContext is CompletedRideViewModel viewModel)
+        if (BindingContext is PlannedRideStatisticsViewModel viewModel)
         {
-            CompletedRide rideToDisplay = viewModel.CompletedRide;
-            if (rideToDisplay.CompletedRidePoints.Count > 0)
+            PlannedRide rideToDisplay = viewModel.PlannedRide;
+            if (rideToDisplay.PlannedRidePoints.Count > 0)
             {
-                DisplayMap(rideToDisplay.CompletedRidePoints);
+                DisplayMap(rideToDisplay.PlannedRidePoints);
             }
+        }
+    }
+
+    private void SendButton_Clicked(object sender, EventArgs e)
+    {
+        if ((sender as Button).Text == "Send and Load")
+        {
+            (sender as Button).Text = "Envoyé!";
+        }
+        else if ((sender as Button).Text == "Envoyé!")
+        {
+            (sender as Button).Text = "Send and Load";
         }
     }
 }

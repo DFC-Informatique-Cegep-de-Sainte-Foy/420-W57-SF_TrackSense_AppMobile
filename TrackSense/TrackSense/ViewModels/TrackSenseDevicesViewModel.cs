@@ -130,7 +130,7 @@ namespace TrackSense.ViewModels
                     "Ok");
                 Console.WriteLine("Erreur : " + ex.Message);
             }
-            finally 
+            finally
             {
                 IsBusy = false;
                 IsRefreshing = false;

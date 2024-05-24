@@ -5,8 +5,8 @@
              xmlns:viewmodel="clr-namespace:TrackSense.ViewModels"
              Title="{Binding Title}">
     <VerticalStackLayout>
-        <Grid RowDefinitions="*,*,*,*,*,*,*,*,*"
-              RowSpacing="10"
+        <Grid RowDefinitions="*,*,*,*,*,*,*,*,*,*,*,*,*,*,*"
+              RowSpacing="2"
               Padding="20">
             <Button 
                 Text="Supprimer les trajets en mémoire"
@@ -57,7 +57,49 @@
                         Text="Ok"
                         Command="{Binding ChangeUsernameCommand}" />
             </Grid>
-            <VerticalStackLayout Grid.Row="8"
+            <Button Grid.Row="8"
+                    Text="Changer de point de terminaison (S3)"
+                    Command="{Binding DisplayEndpointCommand}" />
+            <Grid Grid.Row="9"
+                  x:Name="endpointOptions"
+                  ColumnDefinitions="*,auto"
+                  IsVisible="false">
+                <Entry Grid.Column="0"
+                        x:Name="endpointEntry"
+                        Placeholder="Saisissez votre point de terminaison S3"/>
+                <Button Grid.Column="1"
+                        Text="Ok"
+                        Command="{Binding ChangeEndpointCommand}" />
+            </Grid>
+            <Button Grid.Row="10"
+                    Text="Changer clé d'accès(S3)"
+                    Command="{Binding DisplayAccessKeyCommand}" />
+            <Grid Grid.Row="11"
+                  x:Name="accessKeyOptions"
+                  ColumnDefinitions="*,auto"
+                  IsVisible="false">
+                <Entry Grid.Column="0"
+                        x:Name="accessKeyEntry"
+                        Placeholder="Saisissez votre clé d'accès"/>
+                <Button Grid.Column="1"
+                        Text="Ok"
+                        Command="{Binding ChangeAccessKeyCommand}" />
+            </Grid>
+            <Button Grid.Row="12"
+                    Text="Changer clé secrète(S3)"
+                    Command="{Binding DisplaySecretKeyCommand}" />
+            <Grid Grid.Row="13"
+                  x:Name="secretKeyOptions"
+                  ColumnDefinitions="*,auto"
+                  IsVisible="false">
+                <Entry Grid.Column="0"
+                        x:Name="secretKeyEntry"
+                        Placeholder="Saisissez votre clé secrète"/>
+                <Button Grid.Column="1"
+                        Text="Ok"
+                        Command="{Binding ChangeSecretKeyCommand}" />
+            </Grid>
+            <VerticalStackLayout Grid.Row="14"
                                  x:Name="rotationVerticalStackLayout"
                                  Spacing="15">
                 <Label Text="Orientation de l'écran"

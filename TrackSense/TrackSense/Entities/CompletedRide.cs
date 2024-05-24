@@ -17,7 +17,7 @@ namespace TrackSense.Entities
         [JsonIgnore]
         public PlannedRide? PlannedRide { get; set; } = null;
         public List<CompletedRidePoint> CompletedRidePoints { get; set; } = null!;
-        public CompletedRideStatistics ?Statistics { get; set; } = null;
+        public CompletedRideStatistics? Statistics { get; set; } = null;
       
     }
 }

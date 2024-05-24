@@ -10,5 +10,6 @@ namespace TrackSense.Entities
     {
         public Configurations.Settings LoadSettings();
         public void SaveSettings(Configurations.Settings settings);
+        event EventHandler ConfigurationChanged;
     }
 }
