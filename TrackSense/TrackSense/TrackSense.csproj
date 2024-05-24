@@ -101,7 +101,7 @@
 		<PackageReference Include="CommunityToolkit.Maui.Core" Version="6.0.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
 		<PackageReference Include="ExifLibNet" Version="2.1.4" />
-		<PackageReference Include="Mapsui.Maui" Version="4.1.5" />
+		<PackageReference Include="Mapsui.Maui" Version="4.1.6" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
 		<PackageReference Include="Minio" Version="6.0.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
