@@ -6,6 +6,9 @@ using Minio;
 using System.Net;
 using Minio.Exceptions;
 using Minio.DataModel;
+using System.Diagnostics;
+using Microsoft.Maui.Storage;
+using TrackSense.Views;
 
 namespace TrackSense.Services;
 
@@ -132,6 +135,9 @@ public class GallerieService
                     .WithCredentials(accessKey, secretKey)
                     .WithSSL()
                     .Build();
+#if DEBUG
+                minio.SetTraceOn();
+#endif
                 await UploadToMinio(minio, filePath, fileName).ConfigureAwait(true);
             }
             catch (Exception ex)
@@ -209,6 +215,7 @@ public class GallerieService
         try
         {
             await PrepareGetGalleryFromBucket();
+            await Shell.Current.GoToAsync(nameof(GallerieImagesPage));
         }
         catch(Exception e)
         {
@@ -231,14 +238,11 @@ public class GallerieService
 
         try
         {
-            using var minio = new MinioClient()
-                    .WithEndpoint(endpoint)
+            var minio = new MinioClient()
+                    .WithEndpoint(endpoint, 443)
                     .WithCredentials(accessKey, secretKey)
                     .WithSSL()
                     .Build();
-#if DEBUG
-            minio.SetTraceOn();
-#endif
             await GetGalleryFromMinio(minio).ConfigureAwait(false);
         }
         catch (MinioException minioEx)
@@ -254,8 +258,12 @@ public class GallerieService
     private async Task GetGalleryFromMinio(IMinioClient minio)
     {
         var bucketName = _userSettings.Username;
-        var location = "";
- 
+        var appFolderPath = Path.Combine(FileSystem.AppDataDirectory, "images", bucketName);
+        if (!Directory.Exists(appFolderPath)) //normalement, le dossier devrait exister...
+        {
+            Directory.CreateDirectory(appFolderPath);
+        }
+
         try
         {
             var bktExistArgs = new BucketExistsArgs()
@@ -265,8 +273,7 @@ public class GallerieService
             if (!found)
             {
                 var mkBktArgs = new MakeBucketArgs()
-                    .WithBucket(bucketName)
-                    .WithLocation(location);
+                    .WithBucket(bucketName);
                 await minio.MakeBucketAsync(mkBktArgs).ConfigureAwait(true);
 #if DEBUG
                 await Shell.Current.DisplayAlert("Bucket créé: ", bucketName, "OK");
@@ -275,21 +282,24 @@ public class GallerieService
 
                 ListObjectsArgs args = new ListObjectsArgs()
                 .WithBucket(bucketName)
-                //.WithPrefix("prefix")
                 .WithRecursive(true)
                 .WithVersions(true);
             IObservable<Item> observable = minio.ListObjectsAsync(args);
+
+            var downloadTasks = new List<Task>();
+
             IDisposable subscription = observable.Subscribe(
-                    item => Console.WriteLine("OnNext: {0}", item.Key),
-                    ex => Console.WriteLine("OnError: {0}", ex.Message),
-                    () => Console.WriteLine("OnComplete: {0}"));
-#if DEBUG
-            var list = await minio.ListBucketsAsync().ConfigureAwait(false);
-            foreach (var bucket in list.Buckets)
-            {
-                Console.WriteLine(bucket.Name + " " + bucket.CreationDateDateTime);
-            }
-#endif
+                    item =>
+                    {
+                        Debug.WriteLine("OnNext: {0}", item.Key);
+                        var downloadPath = Path.Combine(appFolderPath, item.Key);
+                        Debug.WriteLine(downloadPath);
+                        downloadTasks.Add(DownloadImageFromMinio(minio, bucketName, item.Key, downloadPath));
+                    },
+                    ex => Debug.WriteLine("OnError: {0}", ex.Message),
+                    () => Debug.WriteLine("OnCompleted"));
+
+            await Task.WhenAll(downloadTasks);
         }
         catch (MinioException minioEx)
         {
@@ -298,6 +308,47 @@ public class GallerieService
         catch (Exception ex)
         {
             await Shell.Current.DisplayAlert("Erreur", ex.Message, "OK");
+        }
+    }
+
+    private async Task DownloadImageFromMinio(IMinioClient minio, string bucketName = "my-bucket-name", string objectName = "my-objectname", string downloadPath = "my-file-name")
+    {
+        try
+        {
+            var getObjectArgs = new GetObjectArgs()
+                .WithBucket(bucketName)
+                .WithObject(objectName)
+                .WithFile(downloadPath);
+            var stat = await minio.GetObjectAsync(getObjectArgs).ConfigureAwait(false);
+        }
+        catch (MinioException minioEx)
+        {
+            await Shell.Current.DisplayAlert("Erreur Minio", minioEx.Message, "OK");
+        }
+        catch (Exception ex)
+        {
+            await Shell.Current.DisplayAlert("Erreur", ex.Message, "OK");
+        }
+        Debug.WriteLine("EndDLIM");
+    }
+
+    //La  méthode suivante est utilisée pour tester l'affichage des images téléchargées dans le dossier de l'application
+    private async Task AfficherImages()
+    {
+        var bucketName = _userSettings.Username;
+        Console.WriteLine(bucketName);
+        var appFolderPath = Path.Combine(FileSystem.AppDataDirectory, "images", bucketName);
+        Console.WriteLine(appFolderPath);
+        var files = Directory.GetFiles(appFolderPath);
+
+        if (files.Length == 0)
+        {
+            await Shell.Current.DisplayAlert("Gallerie", "Aucune image à afficher", "OK");
+        }
+
+        foreach (var file in files)
+        {
+            await Shell.Current.DisplayAlert("Image", file, "OK");
         }
     }
 }

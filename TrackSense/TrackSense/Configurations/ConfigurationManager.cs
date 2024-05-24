@@ -14,7 +14,7 @@ namespace TrackSense.Configurations
         public event EventHandler ConfigurationChanged;
 
         public ConfigurationManager()
-        {
+        {/*
             try
             {
                 if (!File.Exists(_configurationFilePath) || true || false)
@@ -41,7 +41,7 @@ namespace TrackSense.Configurations
             catch (Exception ex)
             {
                 Debug.WriteLine($"An unexpected error occurred: {ex.Message}");
-            }
+            }*/
         }
         public Settings LoadSettings()
         {
