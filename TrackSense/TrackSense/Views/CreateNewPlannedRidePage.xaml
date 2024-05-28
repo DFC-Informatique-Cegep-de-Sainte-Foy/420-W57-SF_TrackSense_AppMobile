@@ -46,7 +46,8 @@
                     Grid.Row="0"
                     Grid.Column="0"
                     FontAttributes="Bold"
-                    Margin="5"/>
+                    Margin="5"
+                    Clicked="DeleteLastMarker_Clicked"/>
 
             <Button Text="Annuler"
                     Grid.Row="0"
@@ -54,8 +55,7 @@
                     BackgroundColor="DarkRed"
                     FontAttributes="Bold"
                     Margin="5"
-                    CommandParameter="{Binding .}"
-                    Command="{Binding GoToMainMenuCommand}" />
+                    Clicked="AnnulerButton_Clicked" />
 
             <Button Text="Créer le trajet"
                     Grid.Row="1"
