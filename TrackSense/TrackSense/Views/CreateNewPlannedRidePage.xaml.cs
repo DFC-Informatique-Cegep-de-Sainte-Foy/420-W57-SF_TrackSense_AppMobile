@@ -25,23 +25,11 @@ public partial class CreateNewPlannedRidePage : ContentPage
 {
     readonly Animation animation;
     List<Models.PlannedRidePoint> plannedRidePoints;
-    private List<MPoint> tappedPoints = new List<MPoint>();
-    IList<Position> Positions { get; }
 
-    IGeolocation _geolocation;
     public Sensor.Location lastLocation = new Sensor.Location();
     public Sensor.Location currentLocation = new Sensor.Location();
     public LocationService locationService;
-    Pin newPin;
     private MapControl mapControl;
-
-
-    //private MapView mapControl;
-    private MemoryLayer markerLayer;
-    private Microsoft.Maui.Graphics.Point markerPosition;
-
-    //public Mapsui.UI.Maui.MapControl mapControl;
-    //MapControl mapControl = new MapControl();
 
     public CreateNewPlannedRidePage(CreateNewPlannedRideViewModel viewModel)
     {
@@ -63,6 +51,7 @@ public partial class CreateNewPlannedRidePage : ContentPage
         mapContainer.Children.Add(mapControl);
 
         plannedRidePoints.Clear();
+        locationService = new LocationService();
     }
 
     private void MapControl_Info(object sender, MapInfoEventArgs e)
@@ -78,21 +67,7 @@ public partial class CreateNewPlannedRidePage : ContentPage
                 Location = new Sensor.Location(lonLat.ToMPoint().Y, lonLat.ToMPoint().X)
             });
 
-            // DEBUG
-            var names = mapControl.Map.Layers.Select(l => l.Name.ToString() + " id#" + l.Id.ToString()).Where(n => n.Length >= 1).ToList();
-            var allNames = String.Join(", ", names);
-            var idCount = mapControl.Map.Layers.Select(l => l.Id.ToString()).Count();
-            Debug.WriteLine($"{idCount} Layers, Names: {allNames}");
-            // DEBUG
-
             AddMarkerToMap(clickedPosition);
-
-            // DEBUG
-            names = mapControl.Map.Layers.Select(l => l.Name.ToString() + " id#" + l.Id.ToString()).Where(n => n.Length >= 1).ToList();
-            allNames = String.Join(", ", names);
-            idCount = mapControl.Map.Layers.Select(l => l.Id.ToString()).Count();
-            Debug.WriteLine($"{idCount} Layers, Names: {allNames}");
-            // DEBUG
 
             if (plannedRidePoints.Count > 1)
             {
@@ -100,9 +75,9 @@ public partial class CreateNewPlannedRidePage : ContentPage
             }
 
             // DEBUG
-            names = mapControl.Map.Layers.Select(l => l.Name.ToString() + " id#" + l.Id.ToString()).Where(n => n.Length >= 1).ToList();
-            allNames = String.Join(", ", names);
-            idCount = mapControl.Map.Layers.Select(l => l.Id.ToString()).Count();
+            var names = mapControl.Map.Layers.Select(l => l.Name.ToString() + " id#" + l.Id.ToString()).Where(n => n.Length >= 1).ToList();
+            var allNames = String.Join(", ", names);
+            var idCount = mapControl.Map.Layers.Select(l => l.Id.ToString()).Count();
             Debug.WriteLine($"{idCount} Layers, Names: {allNames}");
             // DEBUG
         }
@@ -110,7 +85,7 @@ public partial class CreateNewPlannedRidePage : ContentPage
 
     private void AddMarkerToMap(MPoint position)
     {
-        var markerLayer = new MemoryLayer
+        ILayer markerLayer = new MemoryLayer
         {
             Features = new List<IFeature>
             {
@@ -163,7 +138,6 @@ public partial class CreateNewPlannedRidePage : ContentPage
 
         if(style == null) 
         { 
-            //style = CreateLineStringStyle();
             style = new VectorStyle
             {
                 Fill = null,
@@ -191,33 +165,19 @@ public partial class CreateNewPlannedRidePage : ContentPage
         // SQDC Ste-foy 46.7808056, -71.299583
         //location = new Sensor.Location(46.7808056, -71.299583);
 
-        locationService = new LocationService();
         currentLocation = await locationService.GetLocationAsync();
         plannedRidePoints.Add(new Models.PlannedRidePoint(1, currentLocation, null, null));
 
         MPoint point = new MPoint(plannedRidePoints.SingleOrDefault().Location.Longitude, plannedRidePoints.SingleOrDefault().Location.Latitude);
         AddMarkerToMap(point);
-
         mapControl.Map.Navigator.RotationLock = true;
+
 
         MainThread.BeginInvokeOnMainThread(() =>
         {
             mapContainer.Children.Clear();
             mapContainer.Children.Add(mapControl);
         });
-
-
-        /*
-        if (BindingContext is CreateNewPlannedRideViewModel viewModel)
-        {
-            viewModel.NewPlannedRide.PlannedRidePoints = plannedRidePoints;
-
-            Models.PlannedRide rideToDisplay = viewModel.NewPlannedRide;
-            if (rideToDisplay.PlannedRidePoints.Count > 0)
-            {
-                DisplayMap(rideToDisplay.PlannedRidePoints);
-            }
-        }*/
     }
 
     private async void CreerLeTrajetButton_Clicked(object sender, EventArgs e)
@@ -254,24 +214,5 @@ public partial class CreateNewPlannedRidePage : ContentPage
         Debug.WriteLine($"{idCount} Layers, Names: {allNames}");
         Debug.WriteLine($"Positions: {plannedRidePoints.Count}");
     }
-    /*
-    private void viewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
-    {
-        if (BindingContext is CreateNewPlannedRideViewModel viewModel)
-        {
-            if (e.PropertyName == nameof(viewModel.IsConnected))
-            {
-                if (viewModel.IsConnected)
-                {
-                    animation.Commit(this, "animate", 16, 2500, Easing.SinIn,
-                        (v, c) => receptionImg.TranslationX = -40, () => true);
-                }
-                else
-                {
-                    this.AbortAnimation("animate");
-                }
-            }
-        }
-    }*/
 
 }
