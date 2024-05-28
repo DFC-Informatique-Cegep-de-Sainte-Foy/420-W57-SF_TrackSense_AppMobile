@@ -31,6 +31,13 @@ namespace TrackSense.Services
             return await httpClient.PostAsJsonAsync(url, userDTO);
         }
 
+        public async Task<String> GetCurrentUser()
+        {
+            Settings userSettings = _config.LoadSettings();
+
+            return userSettings.Username;
+        }
+
         public async Task<bool> IsUserLoginAvailable(string userLogin)
         {
             Settings userSettings = _config.LoadSettings();

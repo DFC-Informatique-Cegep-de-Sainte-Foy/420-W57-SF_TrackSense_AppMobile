@@ -18,6 +18,7 @@ using Position = Mapsui.UI.Maui.Position;
 using TrackSense.Services;
 using Mapsui.Providers;
 using Microsoft.Maui.ApplicationModel;
+using NetTopologySuite.Algorithm;
 
 namespace TrackSense.Views;
 
@@ -182,7 +183,15 @@ public partial class CreateNewPlannedRidePage : ContentPage
 
     private async void CreerLeTrajetButton_Clicked(object sender, EventArgs e)
     {
+        //Models.PlannedRide plannedRide = new Models.PlannedRide();
+        //plannedRide.PlannedRidePoints = plannedRidePoints;
         //await this.BindingContext.CreateNewPlannedRideCommande
+        var viewModel = BindingContext as CreateNewPlannedRideViewModel;
+        if (viewModel != null)
+        {
+            viewModel.NewPlannedRide.PlannedRidePoints = plannedRidePoints;
+            viewModel.CreateNewPlannedRideCommand.Execute(null);
+        }
     }
 
     private async void AnnulerButton_Clicked(object sender, EventArgs e)

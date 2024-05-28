@@ -32,7 +32,8 @@
 
             <Entry Placeholder="Entrez le titre ici"
                    Grid.Row="1"
-                   Margin="8"/>
+                   Margin="8"
+                   Text="{Binding NewPlannedRide.PlannedRideName}"/>
             
         </Grid>
 
@@ -62,7 +63,8 @@
                     Grid.ColumnSpan="2"
                     BackgroundColor="Green"
                     FontAttributes="Bold"
-                    Margin="5" />
+                    Margin="5"
+                    Clicked="CreerLeTrajetButton_Clicked"/>
 
         </Grid>
 
