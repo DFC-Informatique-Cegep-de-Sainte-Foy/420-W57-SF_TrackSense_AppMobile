@@ -4,6 +4,7 @@
              x:Class="TrackSense.Views.CreateNewPlannedRidePage"
              xmlns:model="clr-namespace:TrackSense.Models"
              xmlns:viewmodel="clr-namespace:TrackSense.ViewModels"
+             xmlns:mapsui="clr-namespace:Mapsui.UI.Maui;assembly=Mapsui.UI.Maui"
              Title="{Binding Title}"
              x:DataType="viewmodel:CreateNewPlannedRideViewModel">
 
@@ -31,7 +32,8 @@
 
             <Entry Placeholder="Entrez le titre ici"
                    Grid.Row="1"
-                   Margin="8"/>
+                   Margin="8"
+                   Text="{Binding NewPlannedRide.PlannedRideName}"/>
             
         </Grid>
 
@@ -41,34 +43,28 @@
               Grid.Row="2"
               Padding="2,2,2,2">
 
-            <Button Text="Nouveau point"
+            <Button Text="Undo"
                     Grid.Row="0"
                     Grid.Column="0"
                     FontAttributes="Bold"
                     Margin="5"
-                    Clicked="NouveauPointButton_Clicked"/>
-
-            <Button Text="Placer le point"
-                    Grid.Row="0"
-                    Grid.Column="1"
-                    FontAttributes="Bold"
-                    Margin="5" />
-
-            <Button Text="Créer le trajet"
-                    Grid.Row="1"
-                    Grid.Column="0"
-                    BackgroundColor="Green"
-                    FontAttributes="Bold"
-                    Margin="5" />
+                    Clicked="DeleteLastMarker_Clicked"/>
 
             <Button Text="Annuler"
-                    Grid.Row="1"
+                    Grid.Row="0"
                     Grid.Column="1"
                     BackgroundColor="DarkRed"
                     FontAttributes="Bold"
                     Margin="5"
-                    CommandParameter="{Binding .}"
-                    Command="{Binding GoToMainMenuCommand}" />
+                    Clicked="AnnulerButton_Clicked" />
+
+            <Button Text="Créer le trajet"
+                    Grid.Row="1"
+                    Grid.ColumnSpan="2"
+                    BackgroundColor="Green"
+                    FontAttributes="Bold"
+                    Margin="5"
+                    Clicked="CreerLeTrajetButton_Clicked"/>
 
         </Grid>
 

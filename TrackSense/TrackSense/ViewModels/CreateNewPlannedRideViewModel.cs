@@ -11,6 +11,7 @@ namespace TrackSense.ViewModels
     public partial class CreateNewPlannedRideViewModel : BaseViewModel
     {
         RideService _rideService;
+        UserService _userService;
         IConnectivity _connectivity;
         LocationService _locationService;
 
@@ -20,18 +21,21 @@ namespace TrackSense.ViewModels
         [ObservableProperty]
         bool isConnected;
 
-        public CreateNewPlannedRideViewModel(IConnectivity connectivity, RideService rideService)
+        public CreateNewPlannedRideViewModel(IConnectivity connectivity, RideService rideService, UserService userService)
         {
             Title = "Créer Nouveau Trajet";
             _connectivity = connectivity;
             _rideService = rideService;
             newPlannedRide = new PlannedRide();
+            _userService = userService;
         }
 
         [RelayCommand]
-        async Task CreateNewPlannedRideAsync(Models.PlannedRide newPlannedRide)
+        async Task CreateNewPlannedRideAsync()
         {
             Entities.PlannedRide plannedRideEntity = newPlannedRide.ToEntity();
+            plannedRideEntity.PlannedRideId = Guid.NewGuid();
+            plannedRideEntity.UserLogin = await _userService.GetCurrentUser();
             _rideService.PostPlannedRideAsync(plannedRideEntity);
         }
 

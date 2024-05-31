@@ -209,6 +209,13 @@ public partial class PlannedRidesViewModel : BaseViewModel
         }
     }
 
+    [RelayCommand]
+    async Task SendRideToTrackSenseAsync(Models.PlannedRideSummary plannedRide)
+    {
+        Console.WriteLine(plannedRide.ToString());
+        Debug.Write(plannedRide.ToString());
+    }
+
     private async Task<bool> CheckInternetConnection()
     {
         bool internetIsAvailable = _connectivity.NetworkAccess == NetworkAccess.Internet;
