@@ -69,8 +69,9 @@
                         BackgroundColor="CornflowerBlue"
                         FontAttributes="Bold"
                         Margin="5"
-                        Clicked="SendButton_Clicked"/>
-
+                        Command="{Binding EnvoyerJSONCommand}"
+                        />
+                <!--Clicked="SendButton_Clicked"-->
                 <Label Text="*** This feature may or may not be harmful to you and others in your surroundings ***"
                        HorizontalTextAlignment="Start"
                        FontSize="Micro"

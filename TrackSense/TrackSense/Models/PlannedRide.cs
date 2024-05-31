@@ -45,9 +45,19 @@ namespace TrackSense.Models
             };
         }
 
-        public override string ToString()
+        public List<LocationPoint> FromPlannedRidePoints2LocationPoints()
         {
-            return $"\nPlanned Ride : \nID : {PlannedRideId}\nNom : {PlannedRideName}\nDistance : {Distance}\nNombre de points : {PlannedRidePoints.Count}";
+            //TODO
+            List<LocationPoint> locationPoints = new();
+            for (int i = 0; i <this.PlannedRidePoints.Count;i++)
+            {
+                double latitude = this.PlannedRidePoints[i].Location.Latitude;
+                double longitude = this.PlannedRidePoints[i].Location.Longitude;
+                LocationPoint lp = new LocationPoint(latitude, longitude);
+                locationPoints.Add(lp);
+            }
+            return locationPoints;
         }
+
     }
 }
